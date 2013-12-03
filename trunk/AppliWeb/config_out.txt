@@ -1,0 +1,28 @@
+[Configuration]
+NombreDePages=5
+
+[Page00]
+Type=Heure
+Tempo=2.500000
+
+[Page01]
+Type=Temperature
+Tempo=2.500000
+
+[Page02]
+Type=Image
+Tempo=3.000000
+Source=img/PleinEcran.jpg
+
+[Page03]
+Type=Texte1Ligne
+Tempo=3.000000
+Texte=1 ligne
+
+[Page04]
+Type=Texte2Lignes
+Tempo=4.500000
+Texte1=Ligne fixe
+Texte2=Ligne défilante
+Defilement=1
+
