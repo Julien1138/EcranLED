@@ -1,11 +1,11 @@
 <?php
-class CPageTxt1 extends CPage
+include_once('CPage.abstract.php');
+
+class CPageTemp extends CPage
 {
-   private $_Texte;
-   
    public function __construct()    // Surcharge constructeur
    {
-      $this->_TypePage = "Texte1Ligne";
+      $this->_TypePage = "Temperature";
    }
    
    public function Charger($File)   // Lecture du fichier
@@ -19,9 +19,6 @@ class CPageTxt1 extends CPage
             case "Tempo" :
                $this->_Tempo = floatval($Param[1]);
                break;
-            case "Texte" :
-               $this->_Texte = $Param[1];
-               break;
             default :
                break;
          }
@@ -33,7 +30,6 @@ class CPageTxt1 extends CPage
    {
       parent::Sauvegarder($File);
       
-      fputs($File, sprintf("Texte=%s\n", $this->_Texte));
       fputs($File, "\n");
    }
 }

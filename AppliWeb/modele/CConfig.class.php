@@ -1,4 +1,10 @@
 <?php
+include_once('CPageHeure.class.php');
+include_once('CPageTemp.class.php');
+include_once('CPageImage.class.php');
+include_once('CPageTxt1.class.php');
+include_once('CPageTxt2.class.php');
+
 class CConfig
 {
    private $_NbrDePages;
@@ -115,7 +121,7 @@ class CConfig
          ?>
          </h2>
          <?php
-         $this->_ListePages[$i]->Afficher();
+         //$this->_ListePages[$i]->Afficher();
       }
    }
 }
