@@ -1,4 +1,6 @@
 <?php
+include_once('CPage.abstract.php');
+
 class CPageHeure extends CPage
 {
    public function __construct()    // Surcharge constructeur

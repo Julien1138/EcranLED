@@ -1,12 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <?php
-   // Inclusion de toutes les classes
-   $_CLASSES = array_merge(glob ("classes/*.abstract.php"),
-                           glob ("classes/*.class.php"));
-   foreach ($_CLASSES AS $_CLASS)
-   {
-      require ($_CLASS);
-   }
+include_once('modele/CConfig.class.php');
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
    <head>
