@@ -5,6 +5,7 @@ class CConfig
 {
    private $_NbrDePages;
    private $_ListePages;
+   private $_PageEnCoursDeModif;
    
    public function Charger($FileName)   // lecture du fichier
    {
@@ -77,6 +78,16 @@ class CConfig
    public function ListePages()
    {
       return $this->_ListePages;
+   }
+   
+   public function PageEnCoursDeModif()
+   {
+      return $this->_PageEnCoursDeModif;
+   }
+   
+   public function SetPageEnCoursDeModif($NumPage)
+   {
+      $this->_PageEnCoursDeModif = $NumPage;
    }
 }
 ?>

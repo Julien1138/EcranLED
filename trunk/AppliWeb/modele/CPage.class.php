@@ -16,15 +16,20 @@ class CPage
    
    public function Sauvegarder($File)  // Ecriture du fichier
    {
-      foreach($this->_Parametres as $cle => $element)
+      foreach($this->_Parametres as $nom => $valeur)
       {
-         fputs($File, sprintf("%s=%s\n", $cle, $element));
+         fputs($File, sprintf("%s=%s\n", $nom, $valeur));
       }
    }
    
    public function Parametres()
    {
       return $this->_Parametres;
+   }
+   
+   public function SetParametre($nom, $valeur)
+   {
+      $this->_Parametres[$nom] = $valeur;
    }
 }
 ?>

@@ -4,6 +4,7 @@ NombreDePages=5
 [Page00]
 Type=Heure
 Tempo=2.5
+Format=12H
 
 [Page01]
 Type=Temperature
