@@ -21,5 +21,10 @@ class CPage
          fputs($File, sprintf("%s=%s\n", $cle, $element));
       }
    }
+   
+   public function Parametres()
+   {
+      return $this->_Parametres;
+   }
 }
 ?>
