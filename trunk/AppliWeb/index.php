@@ -18,8 +18,6 @@ include_once('modele/CConfig.class.php');
             <?php
          }
          
-         $Config->Afficher();
-         
          if (!$Config->Sauvegarder("config_out.txt"))
          {
             ?>

@@ -11,7 +11,7 @@ class CConfig
       $this->_NbrDePages=0;
       if (!$File = fopen($FileName,"r"))
       {
-         echo "Err : Imposible d'ouvrir le fichier en lecture <br />";
+         trigger_error("Err : Imposible d'ouvrir le fichier en lecture", E_USER_ERROR);
          fclose($File);
          return false;
       }
@@ -38,7 +38,7 @@ class CConfig
    {
       if (!$File = fopen($FileName,"w"))
       {
-         echo "Err : Imposible d'ouvrir le fichier pour écriture <br />";
+         trigger_error("Err : Imposible d'ouvrir le fichier pour écriture", E_USER_ERROR);
          fclose($File);
          return false;
       }
@@ -69,23 +69,14 @@ class CConfig
       return true;
    }
    
-   public function Afficher()
+   public function NbrDePages()
    {
-      ?>
-      <h1>Liste des pages :</h1>
-      <?php
-      
-      for ($i = 0 ; $i < $this->_NbrDePages ; $i++)
-      {
-         ?>
-         <h2>
-         <?php
-         echo 'Page n°' . $i . ' :</ br>' ;
-         ?>
-         </h2>
-         <?php
-         //$this->_ListePages[$i]->Afficher();
-      }
+      return $this->_NbrDePages;
+   }
+   
+   public function ListePages()
+   {
+      return $this->_ListePages;
    }
 }
 ?>
