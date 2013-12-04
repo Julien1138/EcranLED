@@ -20,12 +20,12 @@ include_once('modele/CConfig.class.php');
          
          $Config->Afficher();
          
-         /*if (!$Config->Sauvegarder("config_out.txt"))
+         if (!$Config->Sauvegarder("config_out.txt"))
          {
             ?>
             <p>"Echec de l'écriture du fichier"<p/>
             <?php
-         }*/
+         }
       ?>
       
       

@@ -1,9 +1,5 @@
 <?php
-include_once('CPageHeure.class.php');
-include_once('CPageTemp.class.php');
-include_once('CPageImage.class.php');
-include_once('CPageTxt1.class.php');
-include_once('CPageTxt2.class.php');
+include_once('CPage.class.php');
 
 class CConfig
 {
@@ -29,41 +25,8 @@ class CConfig
                $this->_NbrDePages++;
                $NumPage = (int) substr($Ligne,5,2);
                
-               $Ligne = trim(fgets($File,511)); // Ligne suivante
-               $Type = explode("=", $Ligne);
-               if ($Type[0] != "Type")
-               {
-                  echo 'Err : La description doit toujours commencer par le type de page <br />';
-                  fclose($File);
-                  return false;  // La description doit toujours commencer par le type de page
-               }
-               else
-               {
-                  switch ($Type[1])
-                  {
-                     case "Heure" :
-                        $this->_ListePages[$NumPage] = new CPageHeure();
-                        break;
-                     case "Temperature" :
-                        $this->_ListePages[$NumPage] = new CPageTemp();
-                        break;
-                     case "Image" :
-                        $this->_ListePages[$NumPage] = new CPageImage();
-                        break;
-                     case "Texte1Ligne" :
-                        $this->_ListePages[$NumPage] = new CPageTxt1();
-                        break;
-                     case "Texte2Lignes" :
-                        $this->_ListePages[$NumPage] = new CPageTxt2();
-                        break;
-                     default :
-                        echo 'Err : Type inconnu <br />';
-                        fclose($File);
-                        return false;
-                        break;
-                  }
-                  $this->_ListePages[$NumPage]->Charger($File);
-               }
+               $this->_ListePages[$NumPage] = new CPage();
+               $this->_ListePages[$NumPage]->Charger($File);
             }
          }
          fclose($File);
@@ -86,11 +49,11 @@ class CConfig
       // Ecriture de l'entête
       fputs($File, "[Configuration]\n");
       fputs($File, sprintf("NombreDePages=%u\n", $this->_NbrDePages));
-      fputs($File, "\n");
       
       // Ecriture de chaque page
       for ($i = 0 ; $i < $this->_NbrDePages ; $i++)
       {
+         fputs($File, "\n");
          if ($i < 10)
          {
             fputs($File, sprintf("[Page0%u]\n", $i));
