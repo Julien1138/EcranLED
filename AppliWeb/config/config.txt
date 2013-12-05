@@ -4,7 +4,7 @@ NombreDePages=5
 [Page00]
 Type=Heure
 Tempo=2.5
-Format=24H
+Format=12H
 
 [Page01]
 Type=Temperature
@@ -12,7 +12,7 @@ Tempo=2.5
 
 [Page02]
 Type=Image
-Source=img/PleinEcran.jpg
+Source=Rouge.JPG
 Tempo=3
 
 [Page03]

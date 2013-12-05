@@ -1,10 +1,10 @@
 <?php
    foreach($_POST as $nom => $valeur)
    {
-      if ($nom != "updatepage")
+      if ($nom != "updatepage" and $nom != "numpage")
       {
          $Page->SetParametre($nom, $valeur);
       }
    }
-   $Config->Sauvegarder("config\\config.txt");
+   $Config->Sauvegarder(sprintf("%s\\config.txt", $GLOBALS["DossierConfig"]));
 ?>

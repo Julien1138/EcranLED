@@ -1,0 +1,28 @@
+<?php
+if($dossier = opendir($GLOBALS["DossierImages"]))
+{
+echo $Page->Parametres()["Source"];
+?>
+<p>
+   Image à afficher :
+   <select name="Source">
+<?php
+   while($fichier = readdir($dossier))
+   {
+      if ($fichier != '.' && $fichier != '..')
+      {
+         echo '<option value="' . $fichier . '"';
+         if (array_key_exists('Source', $Page->Parametres()) and $Page->Parametres()['Source']==$fichier)
+         {
+             echo ' selected="selected"';
+         }
+         echo '>' . $fichier . '</option>';
+      }
+   }
+   closedir($dossier);
+?>
+   </select>
+<p>
+<?php
+}
+?>

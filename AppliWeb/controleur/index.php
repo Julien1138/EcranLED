@@ -1,8 +1,9 @@
 <?php
+include_once('controleur/globals.php');
 include_once('modele/CConfig.class.php');
          
 $Config = new CConfig();
-$Config->Charger("config\\config.txt");
+$Config->Charger(sprintf("%s\\config.txt", $GLOBALS["DossierConfig"]));
 
 include('vue/index.php');
 
