@@ -1,7 +1,6 @@
 <?php
 if($dossier = opendir($GLOBALS["DossierImages"]))
 {
-echo $Page->Parametres()["Source"];
 ?>
 <p>
    Image à afficher :
