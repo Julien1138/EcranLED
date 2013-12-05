@@ -12,17 +12,17 @@ Tempo=2.5
 
 [Page02]
 Type=Image
-Source=Rouge.JPG
+Source=Bleu.JPG
 Tempo=3
 
 [Page03]
 Type=Texte1Ligne
-Texte= Ligne 
+Texte= Ligne
 Tempo=3
 
 [Page04]
 Type=Texte2Lignes
 Texte1=Ligne fixe
 Texte2=Ligne défilante
-Defilement=1
+Defilement=oui
 Tempo=4.5

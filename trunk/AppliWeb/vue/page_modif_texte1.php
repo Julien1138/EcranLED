@@ -7,5 +7,5 @@
       echo 'value="' . $Page->Parametres()['Texte'] . '"';
    }
    ?>
-   ">
+   >
 </p>
