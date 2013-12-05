@@ -3,7 +3,14 @@
    {
       if ($nom != "updatepage" and $nom != "numpage")
       {
-         $Page->SetParametre($nom, $valeur);
+         if ($nom == "Tempo") // Forcer une valeur flottante pour la tempo
+         {
+            $Page->SetParametre($nom, (float) $valeur);
+         }
+         else
+         {
+            $Page->SetParametre($nom, $valeur);
+         }
       }
    }
    $Config->Sauvegarder(sprintf("%s\\config.txt", $GLOBALS["DossierConfig"]));
