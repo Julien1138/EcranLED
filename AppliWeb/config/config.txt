@@ -12,8 +12,8 @@ Tempo=2.5
 
 [Page02]
 Type=Image
-Source=Bleu.JPG
-Tempo=3
+Source=Blanc.JPG
+Tempo=2.5
 
 [Page03]
 Type=Texte1Ligne
