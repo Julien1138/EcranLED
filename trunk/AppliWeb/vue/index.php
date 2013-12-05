@@ -5,6 +5,15 @@
       <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
    </head>
    <body>
-      <?php include("config.php"); ?>
+      <?php
+      if (isset($_GET['ajoutimage']))
+      {
+         include("ajout_image.php");
+      }
+      else
+      {
+         include("config.php");
+      }
+      ?>
    </body>
 </html>

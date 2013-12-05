@@ -22,6 +22,7 @@ echo $Page->Parametres()["Source"];
    closedir($dossier);
 ?>
    </select>
+   <a href="index.php?ajoutimage=1">Ajouter une image...</a>
 <p>
 <?php
 }
