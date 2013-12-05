@@ -17,7 +17,7 @@ Tempo=3
 
 [Page03]
 Type=Texte1Ligne
-Texte=1 ligne
+Texte= Ligne 
 Tempo=3
 
 [Page04]
