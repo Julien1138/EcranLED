@@ -8,6 +8,9 @@
       case 'Image' :
          include("page_modif_image.php");
          break;
+      case 'Texte1Ligne' :
+         include("page_modif_texte1.php");
+         break;
       default :
          break;
    }

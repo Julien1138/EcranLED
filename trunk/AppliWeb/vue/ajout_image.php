@@ -3,7 +3,7 @@ if (isset($_FILES['monfichier']) and $_FILES['monfichier']['error'] == 0)
 {
    $infosfichier = pathinfo($_FILES['monfichier']['name']);
    $extension_upload = strtolower($infosfichier['extension']);
-   $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+   $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png', 'bmp');
    if (in_array($extension_upload, $extensions_autorisees))
    {
       move_uploaded_file($_FILES['monfichier']['tmp_name'], $GLOBALS['DossierImages'] . '/' . basename($_FILES['monfichier']['name']));
