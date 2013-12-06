@@ -79,7 +79,7 @@ class CConfig
       return $this->_ListePages;
    }
    
-   public function AjoutPage($Type)
+   public function AjouterPage($Type)
    {
       $this->_ListePages[$this->_NbrDePages] = new CPage();
       $this->_ListePages[$this->_NbrDePages]->SetParametre('Type', $Type);
@@ -87,7 +87,7 @@ class CConfig
       return true;
    }
    
-   public function SuppressionPage($NumPage)
+   public function SupprimerPage($NumPage)
    {
       if ($this->_NbrDePages > 0 )
       {
@@ -98,6 +98,42 @@ class CConfig
       else
       {
          trigger_error("Err : Pas de page à supprimer", E_USER_ERROR);
+         return false;
+      }
+   }
+   
+   public function MonterPage($NumPage)
+   {
+      if ($this->_NbrDePages > 1 and $NumPage != 0)
+      {
+         $TempPage = new CPage();
+         $TempPage = $this->_ListePages[$NumPage-1];
+         $this->_ListePages[$NumPage-1] = $this->_ListePages[$NumPage];
+         $this->_ListePages[$NumPage] = $TempPage;
+         unset($TempPage);
+         return true;
+      }
+      else
+      {
+         trigger_error("Err : Imposible de monter la première page", E_USER_ERROR);
+         return false;
+      }
+   }
+   
+   public function DescendrePage($NumPage)
+   {
+      if ($this->_NbrDePages > 1 and $NumPage != ($this->_NbrDePages-1))
+      {
+         $TempPage = new CPage();
+         $TempPage = $this->_ListePages[$NumPage+1];
+         $this->_ListePages[$NumPage+1] = $this->_ListePages[$NumPage];
+         $this->_ListePages[$NumPage] = $TempPage;
+         unset($TempPage);
+         return true;
+      }
+      else
+      {
+         trigger_error("Err : Imposible de descendre la dernière page", E_USER_ERROR);
          return false;
       }
    }
