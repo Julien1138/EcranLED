@@ -78,5 +78,28 @@ class CConfig
    {
       return $this->_ListePages;
    }
+   
+   public function AjoutPage($Type)
+   {
+      $this->_ListePages[$this->_NbrDePages] = new CPage();
+      $this->_ListePages[$this->_NbrDePages]->SetParametre('Type', $Type);
+      $this->_NbrDePages++;
+      return true;
+   }
+   
+   public function SuppressionPage($NumPage)
+   {
+      if ($this->_NbrDePages > 0 )
+      {
+         array_splice($this->_ListePages, $NumPage, 1);
+         $this->_NbrDePages--;
+         return true;
+      }
+      else
+      {
+         trigger_error("Err : Pas de page à supprimer", E_USER_ERROR);
+         return false;
+      }
+   }
 }
 ?>

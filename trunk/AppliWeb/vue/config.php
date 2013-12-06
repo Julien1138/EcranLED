@@ -1,4 +1,4 @@
-<section>
+<form method="post" action="index.php">
    <h1>Configuration des pages de l'écran à LED<h1/>
    <?php
    // Ecriture de chaque page
@@ -13,16 +13,26 @@
       }
       else
       {
-         if (isset($_POST['updatepage']) and isset($_POST['numpage']) and (int) $_POST['numpage'] == (int) $i)
-         {
-            include("controleur\\page_modif.php"); // Modification de la page (Traitement du formulaire, n'affiche rien)
-         }
          if (!isset($_GET['modifpage']))  // A n'afficher que si aucune page n'est en cours de modification
          {
             echo '<a href="index.php?modifpage=' . $i . '">Modifier la page</a>';   // Lien pour modifier la page
+            echo '<br>';
+            echo '<a href="index.php?supprpage=' . $i . '">Supprimer la page</a>';   // Lien pour supprimer la page
          }
          include("page.php"); // Affichage de la page
       }
    }
    ?>
-</section>
+   <h2>Ajouter une page</h2>
+   <p>
+      Ajouter une page de type
+      <select name="Type">
+         <option value="Heure">Heure</option>
+         <option value="Temperature">Temperature</option>
+         <option value="Image">Image</option>
+         <option value="Texte1Ligne">Texte sur 1 Ligne</option>
+         <option value="Texte2Lignes">Texte sur 2 Lignes</option>
+      </select>
+      <input type="submit" name="ajoutpage" value="Ajouter" />
+   </p>
+</form>
