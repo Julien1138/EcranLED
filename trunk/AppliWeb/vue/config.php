@@ -18,6 +18,16 @@
             echo '<a href="index.php?modifpage=' . $i . '">Modifier la page</a>';   // Lien pour modifier la page
             echo '<br>';
             echo '<a href="index.php?supprpage=' . $i . '">Supprimer la page</a>';   // Lien pour supprimer la page
+            if ($i != 0)   // On ne peut pas monter la première page
+            {
+               echo '<br>';
+               echo '<a href="index.php?monterpage=' . $i . '">Monter la page</a>';   // Lien pour supprimer la page
+            }
+            if ($i != ($Config->NbrDePages()-1))   // On ne peut pas descendre la dernière page
+            {
+               echo '<br>';
+               echo '<a href="index.php?descendrepage=' . $i . '">Descendre la page</a>';   // Lien pour supprimer la page
+            }
          }
          include("page.php"); // Affichage de la page
       }
