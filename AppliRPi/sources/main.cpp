@@ -17,7 +17,12 @@ int main(int argc,char **argv)
    Magick::Image my_image( Magick::Geometry(192, 56), Magick::Color("black"));
    
    // set the text rendering font (the color is determined by the "current" image setting)
+#ifdef __CYGWIN__
    my_image.font("Arial");
+#endif
+#ifndef __CYGWIN__
+   my_image.font("Helvetica");
+#endif
    // my_image.boxColor("red");
    my_image.strokeColor("white");
    my_image.fillColor("white");
@@ -26,14 +31,18 @@ int main(int argc,char **argv)
    // draw text with different gravity position
    my_image.annotate("Hello !", Magick::NorthGravity);
    // my_image.annotate("Super !", Magick::SouthGravity);
-   
+   #ifdef __CYGWIN__
    my_image.draw(Magick::DrawableFont("Arial"));
+#endif
+#ifndef __CYGWIN__
+   my_image.draw(Magick::DrawableFont("Helvetica"));
+#endif
    my_image.draw(Magick::DrawableStrokeColor("white"));
-   my_image.draw(Magick::DrawableFillColor(Magick::Color(0, 0, 0, MaxRGB)));
+   // my_image.draw(Magick::DrawableFillColor(Magick::Color(0, 0, 0, MaxRGB)));
    my_image.draw(Magick::DrawableTextUnderColor("red"));
    my_image.draw(Magick::DrawableText(-20,27,"Text Sample with draw"));
    
-   my_image.write("x.png");
+   my_image.write("x.bmp");
    
    return 0;
 }
