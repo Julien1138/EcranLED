@@ -1,6 +1,6 @@
 CC=g++
-CFLAGS=-W -Wall -ansi -pedantic -O2 -lm -lpthread -I /usr/include/ImageMagick
-LDFLAGS=-lMagick++
+CFLAGS=-W -Wall -ansi -pedantic -O2 -lm -lpthread -I/usr/local/include/ImageMagick-6
+LDFLAGS=-L /usr/local/lib/ -lMagick++-6.Q16
 EXEC=EcranLED
 SRC= $(wildcard sources/*.cpp)
 OBJ= $(SRC:sources/%.cpp=out/%.o)
