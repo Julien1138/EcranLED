@@ -10,10 +10,13 @@
 class CProgramme
 {
    private :
-   std::vector<CPage>   m_vectPages;   // Tableau de pages
+   std::vector<CPage*>   m_vectPages;   // Tableau de pages
+   void Vider();
    
    public :
+   ~CProgramme();
    void Charger(std::string sFichier);  // Chargement des paramètres de la page depuis un fichier
+   void Afficher();
 };
 
 #endif //CPROGRAMME_H
