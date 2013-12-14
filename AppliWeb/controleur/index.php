@@ -1,9 +1,19 @@
 <?php
 include_once('controleur/globals.php');
 include_once('modele/CConfig.class.php');
-         
+
+if (isset($_GET['ignorer']))  // Ignorer les changements
+{
+   include("controleur/restauration.php"); // Restauration de la congiguration
+}
+
+if (isset($_GET['enregistrer']))  // Enregistrer les changement
+{
+   include("controleur/sauvegarde.php"); // Sauvegarde de la configuration
+}
+
 $Config = new CConfig();
-$Config->Charger(sprintf("%s/config.txt", $GLOBALS["DossierConfig"]));
+$Config->Charger(sprintf("%s/%s", $GLOBALS["DossierConfig"], $GLOBALS["FichierConfigTemp"]));
 
 if (isset($_POST['updatepage']) and isset($_POST['numpage']))  // Mise à jour d'une page
 {

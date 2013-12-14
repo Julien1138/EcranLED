@@ -1,9 +1,6 @@
 <?php
-   // Débug sur PC :
    $DossierConfig = "config";
-   $DossierImages = "images";
-   
-   // Sur cible RPi :
-   $DossierConfig = "config";
+   $FichierConfig = "config.txt";
+   $FichierConfigTemp = "config_temp.txt";
    $DossierImages = "images";
 ?>
