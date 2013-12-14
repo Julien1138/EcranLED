@@ -1,5 +1,9 @@
 <form method="post" action="index.php">
    <h1>Configuration des pages de l'écran à LED<h1/>
+   <p>
+      <a href="index.php?ignorer=oui">Ignorer les changements</a>
+      <a href="index.php?enregistrer=oui">Enregistrer les changements</a>
+   </p>
    <?php
    // Ecriture de chaque page
    for ($i = 0 ; $i < $Config->NbrDePages() ; $i++)
