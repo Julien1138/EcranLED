@@ -1,5 +1,5 @@
 <form method="post" action="index.php">
-   <h1>Configuration des pages de l'écran à LED<h1/>
+   <h1>Configuration des pages de l'écran à LED</h1>
    <p>
       <a href="index.php?ignorer=oui">Ignorer les changements</a>
       <a href="index.php?enregistrer=oui">Enregistrer les changements</a>
@@ -9,7 +9,31 @@
    for ($i = 0 ; $i < $Config->NbrDePages() ; $i++)
    {
       $Page=$Config->ListePages()[$i]; // Récupération de la page
-      echo '<h2>Page n°' . $i . '</h2>';  // Titre de la page
+      
+      // Titre de la page
+      echo '<h2>Page n°' . $i . ' : Affichage ';
+      switch ($Page->Parametres()['Type'])
+      {
+         case 'Heure' :
+            echo "de l'horloge";
+            break;
+         case 'Temperature' :
+            echo "de la température extérieure";
+            break;
+         case 'Image' :
+            echo "d'une image";
+            break;
+         case 'Texte1Ligne' :
+            echo "d'un texte sur une ligne";
+            break;
+         case 'Texte2Lignes' :
+            echo "d'un texte sur deux lignes";
+            break;
+         default :
+            break;
+      }
+      echo '</h2>';
+      
       if (isset($_GET['modifpage']) and (int) $_GET['modifpage']==(int) $i)
       {
          include("page_modif.php"); // Affichage du formulaire de modification de la page
