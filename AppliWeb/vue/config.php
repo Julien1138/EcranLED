@@ -1,9 +1,22 @@
+<div id ="header">
+<div id ="logo">
+<h1>  Configuration des pages de l'écran à LED</h1>
+</div>
+</div>
+
+<body>
+<div id="main">
 <form method="post" action="index.php">
-   <h1>Configuration des pages de l'écran à LED</h1>
-   <p>
+
+   
+   <div id="content">
+   <p class="btn-more box noprint">
+   
       <a href="index.php?ignorer=oui">Ignorer les changements</a>
       <a href="index.php?enregistrer=oui">Enregistrer les changements</a>
+
    </p>
+  
    <?php
    // Ecriture de chaque page
    for ($i = 0 ; $i < $Config->NbrDePages() ; $i++)
@@ -43,19 +56,24 @@
       {
          if (!isset($_GET['modifpage']))  // A n'afficher que si aucune page n'est en cours de modification
          {
-            echo '<a href="index.php?modifpage=' . $i . '">Modifier la page</a>';   // Lien pour modifier la page
-            echo '<br>';
-            echo '<a href="index.php?supprpage=' . $i . '">Supprimer la page</a>';   // Lien pour supprimer la page
+            
+			echo '<p class="btn-more box noprint">';
+			echo '<b/><a href="index.php?modifpage=' . $i . '">Modifier la page</a></b>';   // Lien pour modifier la page
+            //echo '<br>';
+			echo '<b/><a href="index.php?supprpage=' . $i . '">Supprimer la page</a></b>';   // Lien pour supprimer la page
+			echo '</p>';
             if ($i != 0)   // On ne peut pas monter la première page
             {
-               echo '<br>';
-               echo '<a href="index.php?monterpage=' . $i . '">Monter la page</a>';   // Lien pour supprimer la page
+			
+              // echo '<br>';
+               echo '<b/><a href="index.php?monterpage=' . $i . '"><img src="design/fleches_haut.png" width=25 border=0 alt="monter"></a></b>';   // Lien pour monter la page
             }
             if ($i != ($Config->NbrDePages()-1))   // On ne peut pas descendre la dernière page
             {
-               echo '<br>';
-               echo '<a href="index.php?descendrepage=' . $i . '">Descendre la page</a>';   // Lien pour supprimer la page
-            }
+               //echo '<br>';
+               echo '<b/><a href="index.php?descendrepage=' . $i . '"><img src="design/fleches_bas.png" width=25 border=0 alt="descendre"></a></b>';   // Lien pour descendre la page
+			   
+			}
          }
          include("page.php"); // Affichage de la page
       }
@@ -73,4 +91,7 @@
       </select>
       <input type="submit" name="ajoutpage" value="Ajouter" />
    </p>
+    </div>
 </form>
+</div>
+</body>
