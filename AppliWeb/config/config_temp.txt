@@ -2,17 +2,17 @@
 NombreDePages=5
 
 [Page00]
-Type=Image
-Source=Blanc.JPG
-Tempo=2.5
-
-[Page01]
 Type=Heure
 Tempo=2.5
 Format=12H
 
-[Page02]
+[Page01]
 Type=Temperature
+Tempo=2.5
+
+[Page02]
+Type=Image
+Source=Blanc.JPG
 Tempo=2.5
 
 [Page03]

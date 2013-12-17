@@ -54,26 +54,17 @@
       }
       else
       {
-         if (!isset($_GET['modifpage']))  // A n'afficher que si aucune page n'est en cours de modification
+         echo '<p class="btn-more box noprint">';
+         echo '<b/><a href="index.php?modifpage=' . $i . '">Modifier la page</a></b>';   // Lien pour modifier la page
+         echo '<b/><a href="index.php?supprpage=' . $i . '">Supprimer la page</a></b>';   // Lien pour supprimer la page
+         echo '</p>';
+         if ($i != 0)   // On ne peut pas monter la première page
          {
-            
-			echo '<p class="btn-more box noprint">';
-			echo '<b/><a href="index.php?modifpage=' . $i . '">Modifier la page</a></b>';   // Lien pour modifier la page
-            //echo '<br>';
-			echo '<b/><a href="index.php?supprpage=' . $i . '">Supprimer la page</a></b>';   // Lien pour supprimer la page
-			echo '</p>';
-            if ($i != 0)   // On ne peut pas monter la première page
-            {
-			
-              // echo '<br>';
-               echo '<b/><a href="index.php?monterpage=' . $i . '"><img src="design/fleches_haut.png" width=25 border=0 alt="monter"></a></b>';   // Lien pour monter la page
-            }
-            if ($i != ($Config->NbrDePages()-1))   // On ne peut pas descendre la dernière page
-            {
-               //echo '<br>';
-               echo '<b/><a href="index.php?descendrepage=' . $i . '"><img src="design/fleches_bas.png" width=25 border=0 alt="descendre"></a></b>';   // Lien pour descendre la page
-			   
-			}
+            echo '<b/><a href="index.php?monterpage=' . $i . '"><img src="design/fleches_haut.png" width=25 border=0 alt="monter"></a></b>';   // Lien pour monter la page
+         }
+         if ($i != ($Config->NbrDePages()-1))   // On ne peut pas descendre la dernière page
+         {
+            echo '<b/><a href="index.php?descendrepage=' . $i . '"><img src="design/fleches_bas.png" width=25 border=0 alt="descendre"></a></b>';   // Lien pour descendre la page
          }
          include("page.php"); // Affichage de la page
       }
