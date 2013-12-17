@@ -64,7 +64,7 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
 
 /* -----------------...........--------------------------------------------------------------------------------------- */
 
-#main {width:770px; margin:50px auto 0 auto; _text-align:left;}
+#main {width:98%; margin:30px auto 0 auto; _text-align:left;}
 
 /* Header */
 #header {position:relative; width:770px; height:100px; margin:0; padding:0; background:#239b32 url("../design/header.jpg") 0 0 no-repeat; color:#FFF;}
@@ -86,6 +86,12 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
     #header #search legend {display:none;}
 
 /* Main menu (tabs) */
+
+ #test {margin:0 0 15px 0; padding:0; border:0; position:relative;}
+    #test a {display:block; position:absolute; top:0; right:0; width:67px; _width:95px; height:21px; margin:0; padding:0 0 0 28px; background:url("../../design/btn_more.gif") 0 0 no-repeat; color:#FFF; text-decoration:none;}
+    #test a:hover {background:url("../../design/btn_more.gif") -95px 0 no-repeat;}
+
+
 #tabs {background:#116600; margin:0 5px; padding:10px 0 0 0; _height:1px;}
 
     #tabs ul {margin:0 10px; padding:0; list-style:none;}
@@ -123,7 +129,7 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
     #strip #rss {float:right; width:175px; _width:200px; margin:0; padding-left:25px; background:url("../design/ico_rss.gif") 0 50% no-repeat}
 
 /* Content */
-#content {float:left; width:530px; _width:550px; margin:0; padding:0 0 0 20px;}
+#content {float:left; width:100%; _width:550px; margin:0; padding:0 0 0 20px;}
 
     /* Content - article */
     #content .article {clear:both; margin:0; padding:20px; background:url("../design/content_article_bg.jpg") 0 0 no-repeat;}
@@ -143,8 +149,8 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
 
     /* Content - More */
     #content .btn-more {margin:0 0 15px 0; padding:0; border:0; position:relative;}
-    #content .btn-more a {display:block; position:absolute; top:0; right:0; width:67px; _width:95px; height:21px; margin:0; padding:0 0 0 28px; background:url("../design/btn_more.gif") 0 0 no-repeat; color:#FFF; text-decoration:none;}
-    #content .btn-more a:hover {background:url("../design/btn_more.gif") -95px 0 no-repeat;}
+    #content .btn-more a {/*display:block;*/ position:relative; top:0; right:0; width:165px; /*_width:195px;*/ height:21px; margin:8; padding:5 5 5 20px; background:url("../design/btn_more.png") 0 0 no-repeat; color:#FFF; text-decoration:none;}
+    #content .btn-more a:hover {background:url("../design/btn_more.png") -190px 0 no-repeat;}
 
 /* Right column */
 #col {float:left; width:200px; margin:0; padding:0; background:#cef9cf url("../design/col_bg.gif") 0 0 repeat-y;}
