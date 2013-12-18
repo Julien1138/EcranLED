@@ -50,22 +50,25 @@
       if (isset($_GET['modifpage']) and (int) $_GET['modifpage']==(int) $i)
       {
          include("page_modif.php"); // Affichage du formulaire de modification de la page
-         echo '<a href="index.php">Annuler</a>';   // Lien pour annuler la modification de la page
+         //echo '<p class="btn-more box noprint">';
+		 echo '<b><a href="index.php"><img src="design/annuler.png" width = 15 alt="annuler">Annuler </a></b>';   // Lien pour annuler la modification de la page
+		// echo '</p>';
       }
       else
       {
          echo '<p class="btn-more box noprint">';
          echo '<b/><a href="index.php?modifpage=' . $i . '">Modifier la page</a></b>';   // Lien pour modifier la page
          echo '<b/><a href="index.php?supprpage=' . $i . '">Supprimer la page</a></b>';   // Lien pour supprimer la page
-         echo '</p>';
+         
          if ($i != 0)   // On ne peut pas monter la première page
          {
-            echo '<b/><a href="index.php?monterpage=' . $i . '"><img src="design/fleches_haut.png" width=25 border=0 alt="monter"></a></b>';   // Lien pour monter la page
+            echo '<b/><a href="index.php?monterpage=' . $i . '">Monter <img src="design/fleches_haut.png" width=25 border=0 alt="monter"></a></b>';   // Lien pour monter la page
          }
          if ($i != ($Config->NbrDePages()-1))   // On ne peut pas descendre la dernière page
          {
-            echo '<b/><a href="index.php?descendrepage=' . $i . '"><img src="design/fleches_bas.png" width=25 border=0 alt="descendre"></a></b>';   // Lien pour descendre la page
+            echo '<b/><a href="index.php?descendrepage=' . $i . '">Descendre <img src="design/fleches_bas.png" width=25 border=0 alt="descendre"></a></b>';   // Lien pour descendre la page
          }
+		 echo '</p>';
          include("page.php"); // Affichage de la page
       }
    }
