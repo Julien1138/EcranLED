@@ -1,7 +1,7 @@
 <?php
    foreach($_POST as $nom => $valeur)
    {
-      if ($nom != "updatepage" and $nom != "numpage")
+      if ($nom != "updatepage" and $nom != "numpage" and $nom != "Type")
       {
          if ($nom == "Tempo") // Forcer une valeur flottante pour la tempo
          {
