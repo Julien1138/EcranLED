@@ -5,16 +5,28 @@
 #include "../includes/CPageTexte1.h"
 #include "../includes/CPageTexte2.h"
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+#include <Magick++.h>
+
+CProgramme::CProgramme(std::string sFichier)
+{
+   m_iDateModifFichier = 0;
+   m_sFilePath = sFichier.c_str();
+}
+
 CProgramme::~CProgramme()
 {
    this->Vider();
 }
 
-void CProgramme::Charger(std::string sFichier)
+void CProgramme::Charger()
 {
-   std::ifstream                       ifsFichier(sFichier.c_str(), std::ios::in);   // on ouvre en lecture
-   std::map<std::string, std::string>  mapParametres;          // Liste associative des paramètres de la page
-   std::string                         sLigne;
+   std::ifstream ifsFichier(m_sFilePath.c_str(), std::ios::in);   // on ouvre en lecture
+   std::map<std::string, std::string> mapParametres;          // Liste associative des paramètres de la page
+   std::string sLigne;
    
    if (ifsFichier)
    {
@@ -64,7 +76,13 @@ void CProgramme::Charger(std::string sFichier)
    {
       std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
    }
-   return;
+   
+   // Préchargement des images
+   for (std::vector<CPage*>::iterator it = m_vectPages.begin(); it != m_vectPages.end(); it++)
+   {
+      // std::cout << "Tempo : " << (*it)->GetTempo() << std::endl;
+      (*it)->PreloadImage();
+   }
 }
 
 void CProgramme::Vider()
@@ -76,11 +94,33 @@ void CProgramme::Vider()
    }
 }
 
+bool CProgramme::VerifNouvelleConfig()
+{
+   struct stat sb;
+   stat(m_sFilePath.c_str(), &sb);
+   if (m_iDateModifFichier != sb.st_mtim.tv_sec)
+   {
+      m_iDateModifFichier = sb.st_mtim.tv_sec;
+      return true;
+   }
+   else
+   {
+      return false;
+   }
+}
+
 void CProgramme::Afficher()
 {
-   std::cout << "CProgramme::Afficher()" << std::endl;
-   for (std::vector<CPage*>::iterator it = m_vectPages.begin(); it != m_vectPages.end(); it++)
+   //while(true)
    {
-      std::cout << "Tempo : " << (*it)->GetTempo() << std::endl;
+      if (this->VerifNouvelleConfig())
+      {
+         this->Charger();
+      }
+      
+      for (std::vector<CPage*>::iterator it = m_vectPages.begin(); it != m_vectPages.end(); it++)
+      {
+         (*it)->Afficher();
+      }
    }
 }

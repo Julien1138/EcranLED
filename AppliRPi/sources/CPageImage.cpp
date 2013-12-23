@@ -14,3 +14,13 @@ CPageImage::CPageImage(const CPageImage& PageImage) :
 CPage((CPage&) PageImage)
 {
 }
+
+void CPageImage::PreloadImage()
+{
+}
+
+void CPageImage::UpdateImage()
+{
+   // Rien à faire
+}
+

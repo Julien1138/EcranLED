@@ -14,3 +14,12 @@ CPageTemperature::CPageTemperature(const CPageTemperature& PageTemperature) :
 CPage((CPage&) PageTemperature)
 {
 }
+
+void CPageTemperature::PreloadImage()
+{
+}
+
+void CPageTemperature::UpdateImage()
+{
+}
+

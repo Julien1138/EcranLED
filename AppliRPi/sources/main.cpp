@@ -1,14 +1,22 @@
 #include <string>
 #include <Magick++.h>
+
 #include "../includes/CProgramme.h"
+#include "../includes/CSPI.h"
+
+#define MAGICKCORE_QUANTUM_DEPTH 8
 
 int main(int argc,char **argv) 
 {
-   CProgramme Programme;
-   Programme.Charger("/var/www/config/config.txt");
-   Programme.Charger("/var/www/config/config.txt");
-   Programme.Afficher();
+   CSPI* SPI = new CSPI;
    
+   unsigned char tx[2] = {0xA2, 0xA4};
+   SPI->Envoi((unsigned char*) &tx, 2);
+   
+   CProgramme* Programme = new CProgramme("/var/www/config/config.txt");
+ //  Programme->Afficher();
+   
+   /*
    // Create base image (black image of 192 by 56 pixels)
    // Magick::Image image( Magick::Geometry(192, 56), Magick::Color("black") );
    
@@ -37,7 +45,9 @@ int main(int argc,char **argv)
    my_image.draw(Magick::DrawableTextUnderColor("red"));
    my_image.draw(Magick::DrawableText(-20,27,"Text Sample with draw"));
    
-   my_image.write("x.bmp");
+   my_image.write("x.png");
+   my_image.write("x.jpg");
+   */
    
    return 0;
 }
