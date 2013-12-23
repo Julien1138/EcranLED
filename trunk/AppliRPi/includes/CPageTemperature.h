@@ -16,6 +16,9 @@ class CPageTemperature : public CPage
    CPageTemperature();                                         // Constructeur
    CPageTemperature(std::string sTempo);                       // Constructeur
    CPageTemperature(const CPageTemperature& PageTemperature);  // Constructeur de copie
+
+   void PreloadImage();                                  // Pré-chargement de l'image
+   void UpdateImage();                                   // Mise à jour de l'image
 };
 
 #endif //CPAGETEMPERATURE_H

@@ -17,3 +17,17 @@ CPage((CPage&) PageTexte1),
 m_sTexte(PageTexte1.m_sTexte)
 {
 }
+
+void CPageTexte1::PreloadImage()
+{
+   m_Image.font("Helvetica");
+   m_Image.strokeColor("white");
+   m_Image.fillColor("white");
+   m_Image.fontPointsize(54);
+   m_Image.annotate(m_sTexte.c_str(), Magick::CenterGravity);
+}
+
+void CPageTexte1::UpdateImage()
+{
+}
+

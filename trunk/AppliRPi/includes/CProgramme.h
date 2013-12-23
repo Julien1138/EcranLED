@@ -10,12 +10,17 @@
 class CProgramme
 {
    private :
-   std::vector<CPage*>   m_vectPages;   // Tableau de pages
+   std::string          m_sFilePath;
+   std::vector<CPage*>  m_vectPages;   // Tableau de pages
+   int                  m_iDateModifFichier;
+   
+   void Charger();   // Chargement des paramètres de la page depuis le fichier
    void Vider();
+   bool VerifNouvelleConfig();
    
    public :
+   CProgramme(std::string sFichier);
    ~CProgramme();
-   void Charger(std::string sFichier);  // Chargement des paramètres de la page depuis un fichier
    void Afficher();
 };
 
