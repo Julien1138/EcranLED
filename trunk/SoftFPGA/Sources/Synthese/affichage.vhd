@@ -41,6 +41,12 @@ library work;
 use work.pkg_driver.all;
 
 entity affichage is
+   generic
+   (
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  : std_logic_vector( 7 downto 0) := X"B5";  --! Coefficient à appliquer à la couleur rouge
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   : std_logic_vector( 7 downto 0) := X"FF";  --! Coefficient à appliquer à la couleur verte
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   : std_logic_vector( 7 downto 0) := X"6E"   --! Coefficient à appliquer à la couleur bleue
+   );
    port
    (
    -- Signaux globaux
@@ -157,6 +163,12 @@ begin
    );
    
    affichage_traitements_inst : affichage_traitements
+   generic map
+   (
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  => GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE,
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   => GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT,
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   => GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU
+   )
    port map
    (
    -- Signaux globaux
