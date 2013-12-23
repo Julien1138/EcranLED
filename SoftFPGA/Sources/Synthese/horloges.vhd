@@ -85,6 +85,7 @@ begin
             s_rst_count <= s_rst_count - 1;
             s_rst_async <= '1';
          else
+            s_rst_count <= s_rst_count;
             s_rst_async <= '0';
          end if;
          

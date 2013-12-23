@@ -41,6 +41,12 @@ library work;
 use work.pkg_driver.all;
 
 entity affichage_traitements_balance_couleurs is
+   generic
+   (
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  : std_logic_vector( 7 downto 0) := X"B5";  --! Coefficient à appliquer à la couleur rouge
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   : std_logic_vector( 7 downto 0) := X"FF";  --! Coefficient à appliquer à la couleur verte
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   : std_logic_vector( 7 downto 0) := X"6E"   --! Coefficient à appliquer à la couleur bleue
+   );
    port
    (
    -- Signaux globaux
@@ -104,9 +110,9 @@ begin
       end if;
    end process;
    
-   s_coefficient_couleur <= CST_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE when couleur_pixel_i = CST_AFFICHAGE_TRAITEMENTS_ROUGE else
-                            CST_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT  when couleur_pixel_i = CST_AFFICHAGE_TRAITEMENTS_VERT  else
-                            CST_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU  when couleur_pixel_i = CST_AFFICHAGE_TRAITEMENTS_BLEU  else
+   s_coefficient_couleur <= GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE when couleur_pixel_i = CST_AFFICHAGE_TRAITEMENTS_ROUGE else
+                            GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT  when couleur_pixel_i = CST_AFFICHAGE_TRAITEMENTS_VERT  else
+                            GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU  when couleur_pixel_i = CST_AFFICHAGE_TRAITEMENTS_BLEU  else
                             (others => '1');
    
    affichage_traitements_balance_couleurs_mult_inst : affichage_traitements_balance_couleurs_mult

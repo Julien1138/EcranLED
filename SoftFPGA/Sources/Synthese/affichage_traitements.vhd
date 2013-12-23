@@ -41,6 +41,12 @@ library work;
 use work.pkg_driver.all;
 
 entity affichage_traitements is
+   generic
+   (
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  : std_logic_vector( 7 downto 0) := X"B5";  --! Coefficient à appliquer à la couleur rouge
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   : std_logic_vector( 7 downto 0) := X"FF";  --! Coefficient à appliquer à la couleur verte
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   : std_logic_vector( 7 downto 0) := X"6E"   --! Coefficient à appliquer à la couleur bleue
+   );
    port
    (
    -- Signaux globaux
@@ -111,44 +117,39 @@ begin
    s_entree_num_sortie_driver    <= num_sortie_driver_i;
    s_entree_couleur_pixel        <= couleur_pixel_i;
    
-   noir_et_blanc_gen : if CST_AFFICHAGE_TRAITEMENTS_COULEUR = '0' generate
-      s_balance_couleurs_lecture_enable      <= s_entree_lecture_enable;
-      s_balance_couleurs_lecture_donnees     <= s_entree_lecture_donnees;
-      s_balance_couleurs_num_chaine_driver   <= s_entree_num_chaine_driver;
-      s_balance_couleurs_num_driver          <= s_entree_num_driver;
-      s_balance_couleurs_num_sortie_driver   <= s_entree_num_sortie_driver;
-      s_balance_couleurs_couleur_pixel       <= s_entree_couleur_pixel;
-   end generate;
-   
-   couleur_gen : if CST_AFFICHAGE_TRAITEMENTS_COULEUR = '1' generate
-      affichage_traitements_balance_couleurs_inst : affichage_traitements_balance_couleurs
-      port map
-      (
-      -- Signaux globaux
-         rst_opt_i            => rst_opt_i,
-         clk_opt_i            => clk_opt_i,
-         
-      -- Données image entrée
-         lecture_enable_i     => s_entree_lecture_enable,
-         lecture_donnees_i    => s_entree_lecture_donnees,
-         
-      -- Infos données image entrée
-         num_chaine_driver_i  => s_entree_num_chaine_driver,
-         num_driver_i         => s_entree_num_driver,
-         num_sortie_driver_i  => s_entree_num_sortie_driver,
-         couleur_pixel_i      => s_entree_couleur_pixel,
-         
-      -- Données image sortie
-         lecture_enable_o     => s_balance_couleurs_lecture_enable,
-         lecture_donnees_o    => s_balance_couleurs_lecture_donnees,
-         
-      -- Infos données image sortie
-         num_chaine_driver_o  => s_balance_couleurs_num_chaine_driver,
-         num_driver_o         => s_balance_couleurs_num_driver,
-         num_sortie_driver_o  => s_balance_couleurs_num_sortie_driver,
-         couleur_pixel_o      => s_balance_couleurs_couleur_pixel
-      );
-   end generate;
+   affichage_traitements_balance_couleurs_inst : affichage_traitements_balance_couleurs
+   generic map
+   (
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  => GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE,
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   => GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT,
+      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   => GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU
+   )
+   port map
+   (
+   -- Signaux globaux
+      rst_opt_i            => rst_opt_i,
+      clk_opt_i            => clk_opt_i,
+      
+   -- Données image entrée
+      lecture_enable_i     => s_entree_lecture_enable,
+      lecture_donnees_i    => s_entree_lecture_donnees,
+      
+   -- Infos données image entrée
+      num_chaine_driver_i  => s_entree_num_chaine_driver,
+      num_driver_i         => s_entree_num_driver,
+      num_sortie_driver_i  => s_entree_num_sortie_driver,
+      couleur_pixel_i      => s_entree_couleur_pixel,
+      
+   -- Données image sortie
+      lecture_enable_o     => s_balance_couleurs_lecture_enable,
+      lecture_donnees_o    => s_balance_couleurs_lecture_donnees,
+      
+   -- Infos données image sortie
+      num_chaine_driver_o  => s_balance_couleurs_num_chaine_driver,
+      num_driver_o         => s_balance_couleurs_num_driver,
+      num_sortie_driver_o  => s_balance_couleurs_num_sortie_driver,
+      couleur_pixel_o      => s_balance_couleurs_couleur_pixel
+   );
    
    affichage_traitements_luminosite_inst : affichage_traitements_luminosite
    port map
