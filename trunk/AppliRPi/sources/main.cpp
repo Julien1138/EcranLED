@@ -8,13 +8,13 @@
 
 int main(int argc,char **argv) 
 {
-   CSPI* SPI = new CSPI;
+   //CSPI* SPI = new CSPI;
    
-   unsigned char tx[2] = {0xA2, 0xA4};
-   SPI->Envoi((unsigned char*) &tx, 2);
+   //unsigned char tx[2] = {0xA2, 0xA4};
+   //SPI->Envoi((unsigned char*) &tx, 2);
    
    CProgramme* Programme = new CProgramme("/var/www/config/config.txt");
- //  Programme->Afficher();
+   Programme->Afficher();
    
    /*
    // Create base image (black image of 192 by 56 pixels)

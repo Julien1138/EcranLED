@@ -8,7 +8,9 @@
 #include <fstream>
 #include <Magick++.h>
 
-#define CPAGE_RESOLUTION_US   100000   // 10 images par seconde
+#include "CSPI.h"
+
+#define CPAGE_RESOLUTION_US   1000   // 10 images par seconde
 
 class CPage
 {
@@ -16,6 +18,7 @@ class CPage
    float m_fTempo;      // Durée d'affichage de la page
    Magick::Image m_Image; // Image de la page
    Magick::PixelPacket * m_pPixels; // Image bas niveau
+   CSPI* m_pSPI;
    
    void EnvoiImage();                        // Envoi de l'image sur le lien SPI
    virtual void UpdateImage() = 0;           // Mise à jour de l'image de la page
