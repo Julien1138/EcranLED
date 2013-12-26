@@ -38,9 +38,6 @@ use ieee.std_logic_unsigned.all;
 library work;
 use work.pkg_driver.all;
 
-library SPI_Lib;
-use SPI_Lib.SPI_Pack.all;
-
 entity EcranLED is
    port
    (
@@ -117,10 +114,26 @@ architecture rtl_EcranLED of EcranLED is
    signal s_driver_dclk : std_logic;   --! Horloge de données du driver de LED (synchrone de clk_aff_i)
    signal s_driver_gclk : std_logic;   --! Horloge de PWM du driver de LED (synchrone de clk_aff_i)
    
-   signal s_rafraichissement  : std_logic;
+   signal s_spi_ss1     : std_logic;  --! Chip select SPI
+   signal s_spi_sck     : std_logic;  --! Signal d'horloge SPI
+   signal s_spi_mosi    : std_logic;  --! Données SPI entrantes
    
    signal s_spi_nouvelles_donnees   : std_logic;
    signal s_spi_donnees             : std_logic_vector(7 downto 0);
+   
+   signal s_ecriture_en1      : std_logic;
+   signal s_ecriture_en2      : std_logic;
+   signal s_ecriture_en3      : std_logic;
+   signal s_ecriture_en4      : std_logic;
+   signal s_ecriture_en5      : std_logic;
+   signal s_ecriture_en6      : std_logic;
+   signal s_ecriture_adresse  : std_logic_vector(12 downto 0);
+   signal s_ecriture_donnees  : std_logic_vector( 7 downto 0);
+   
+   signal s_rafraichissement  : std_logic;
+      
+   -- Paramètres
+   signal s_luminosite           : std_logic_vector( 7 downto 0);   --! Réglage de luminosité
    
 -- Signaux de l'interface de lecture le la mémoire image n°1
    -- Interface de lecture
@@ -139,6 +152,11 @@ architecture rtl_EcranLED of EcranLED is
    signal s_num_sortie_driver_out_1 : std_logic_vector( 3 downto 0); --! Numéro de la sortie du driver concerné
    signal s_couleur_pixel_out_1     : std_logic_vector( 1 downto 0); --! Couleur du pixel
    
+   -- Paramètres couleur
+   signal s_coefficient_rouge_1  : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+   signal s_coefficient_vert_1   : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+   signal s_coefficient_bleu_1   : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
+   
 -- Signaux de l'interface de lecture le la mémoire image n°2
    -- Interface de lecture
    signal s_lecture_enable_in_2     : std_logic;                     --! Enable lecture pixel
@@ -155,6 +173,11 @@ architecture rtl_EcranLED of EcranLED is
    signal s_num_driver_out_2        : std_logic_vector( 7 downto 0); --! Position du driver dans la chaine
    signal s_num_sortie_driver_out_2 : std_logic_vector( 3 downto 0); --! Numéro de la sortie du driver concerné
    signal s_couleur_pixel_out_2     : std_logic_vector( 1 downto 0); --! Couleur du pixel
+   
+   -- Paramètres couleur
+   signal s_coefficient_rouge_2  : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+   signal s_coefficient_vert_2   : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+   signal s_coefficient_bleu_2   : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
    
 -- Signaux de l'interface de lecture le la mémoire image n°3
    -- Interface de lecture
@@ -173,6 +196,11 @@ architecture rtl_EcranLED of EcranLED is
    signal s_num_sortie_driver_out_3 : std_logic_vector( 3 downto 0); --! Numéro de la sortie du driver concerné
    signal s_couleur_pixel_out_3     : std_logic_vector( 1 downto 0); --! Couleur du pixel
    
+   -- Paramètres couleur
+   signal s_coefficient_rouge_3  : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+   signal s_coefficient_vert_3   : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+   signal s_coefficient_bleu_3   : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
+   
 -- Signaux de l'interface de lecture le la mémoire image n°4
    -- Interface de lecture
    signal s_lecture_enable_in_4     : std_logic;                     --! Enable lecture pixel
@@ -189,6 +217,11 @@ architecture rtl_EcranLED of EcranLED is
    signal s_num_driver_out_4        : std_logic_vector( 7 downto 0); --! Position du driver dans la chaine
    signal s_num_sortie_driver_out_4 : std_logic_vector( 3 downto 0); --! Numéro de la sortie du driver concerné
    signal s_couleur_pixel_out_4     : std_logic_vector( 1 downto 0); --! Couleur du pixel
+   
+   -- Paramètres couleur
+   signal s_coefficient_rouge_4  : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+   signal s_coefficient_vert_4   : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+   signal s_coefficient_bleu_4   : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
    
 -- Signaux de l'interface de lecture le la mémoire image n°5
    -- Interface de lecture
@@ -207,6 +240,11 @@ architecture rtl_EcranLED of EcranLED is
    signal s_num_sortie_driver_out_5 : std_logic_vector( 3 downto 0); --! Numéro de la sortie du driver concerné
    signal s_couleur_pixel_out_5     : std_logic_vector( 1 downto 0); --! Couleur du pixel
    
+   -- Paramètres couleur
+   signal s_coefficient_rouge_5  : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+   signal s_coefficient_vert_5   : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+   signal s_coefficient_bleu_5   : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
+   
 -- Signaux de l'interface de lecture le la mémoire image n°6
    -- Interface de lecture
    signal s_lecture_enable_in_6     : std_logic;                     --! Enable lecture pixel
@@ -224,6 +262,11 @@ architecture rtl_EcranLED of EcranLED is
    signal s_num_sortie_driver_out_6 : std_logic_vector( 3 downto 0); --! Numéro de la sortie du driver concerné
    signal s_couleur_pixel_out_6     : std_logic_vector( 1 downto 0); --! Couleur du pixel
    
+   -- Paramètres couleur
+   signal s_coefficient_rouge_6  : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+   signal s_coefficient_vert_6   : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+   signal s_coefficient_bleu_6   : std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
+   
 begin
 
    horloges_inst : horloges
@@ -239,29 +282,109 @@ begin
       driver_gclk_o  => s_driver_gclk
    );
    
-   s_rafraichissement <= '1';
-   
-   SPI_SlaveReader_inst : E_SPI_SlaveReader
+   input_filter_inst_spi_sck : input_filter
    generic map
    (
-      g_Mode   =>  "00"
+      GNR_SIZE => 5
    )
    port map
    (
-      rst_i       => s_rst_aff,
-      clk_i       => s_clk_aff,
+      rst_aff_i   => s_rst_aff,
+      clk_aff_i   => s_clk_aff,
       
-      SCK_i       => io_spi_sck_i,
-      SS_i        => io_spi_ss1_i,
-      MOSI_i      => io_spi_mosi_i,
+      in_i        => io_spi_sck_i,
+      out_o       => s_spi_sck
+   );
+   
+   input_filter_inst_spi_ss1 : input_filter
+   generic map
+   (
+      GNR_SIZE => 5
+   )
+   port map
+   (
+      rst_aff_i   => s_rst_aff,
+      clk_aff_i   => s_clk_aff,
       
-      NewData_o   => s_spi_nouvelles_donnees,
-      Data_o      => s_spi_donnees
+      in_i        => io_spi_ss1_i,
+      out_o       => s_spi_ss1
+   );
+   
+   input_filter_inst_spi_mosi : input_filter
+   generic map
+   (
+      GNR_SIZE => 5
+   )
+   port map
+   (
+      rst_aff_i   => s_rst_aff,
+      clk_aff_i   => s_clk_aff,
+      
+      in_i        => io_spi_mosi_i,
+      out_o       => s_spi_mosi
+   );
+   
+   spi_receiver_inst : spi_receiver
+   port map
+   (
+      rst_aff_i      => s_rst_aff,
+      clk_aff_i      => s_clk_aff,
+      
+      io_sck_i       => s_spi_sck,
+      io_ss_i        => s_spi_ss1,
+      io_mosi_i      => s_spi_mosi,
+      
+      nouv_donnee_o  => s_spi_nouvelles_donnees,
+      donnee_o       => s_spi_donnees
    );
    io_spi_miso_o <= io_spi_mosi_i;
    
    -- Interpreteur
-   
+   interpreteur_inst : interpreteur
+   port map
+   (
+   -- Signaux globaux
+      rst_aff_i            => s_rst_aff,
+      clk_aff_i            => s_clk_aff,
+      
+   -- Interface SPI
+      NewData_i            => s_spi_nouvelles_donnees,
+      Data_i               => s_spi_donnees,
+      
+   -- Interface d'écriture de l'image
+      ecriture_en1_o       => s_ecriture_en1,
+      ecriture_en2_o       => s_ecriture_en2,
+      ecriture_en3_o       => s_ecriture_en3,
+      ecriture_en4_o       => s_ecriture_en4,
+      ecriture_en5_o       => s_ecriture_en5,
+      ecriture_en6_o       => s_ecriture_en6,
+      ecriture_adresse_o   => s_ecriture_adresse,
+      ecriture_donnees_o   => s_ecriture_donnees,
+      
+   -- Mise à jour de l'affichage
+      rafraichissement_o   => s_rafraichissement,
+      
+   -- Paramètres
+      luminosite_o         => s_luminosite,
+      coefficient_rouge_1_o=> s_coefficient_rouge_1,
+      coefficient_vert_1_o => s_coefficient_vert_1,
+      coefficient_bleu_1_o => s_coefficient_bleu_1,
+      coefficient_rouge_2_o=> s_coefficient_rouge_2,
+      coefficient_vert_2_o => s_coefficient_vert_2,
+      coefficient_bleu_2_o => s_coefficient_bleu_2,
+      coefficient_rouge_3_o=> s_coefficient_rouge_3,
+      coefficient_vert_3_o => s_coefficient_vert_3,
+      coefficient_bleu_3_o => s_coefficient_bleu_3,
+      coefficient_rouge_4_o=> s_coefficient_rouge_4,
+      coefficient_vert_4_o => s_coefficient_vert_4,
+      coefficient_bleu_4_o => s_coefficient_bleu_4,
+      coefficient_rouge_5_o=> s_coefficient_rouge_5,
+      coefficient_vert_5_o => s_coefficient_vert_5,
+      coefficient_bleu_5_o => s_coefficient_bleu_5,
+      coefficient_rouge_6_o=> s_coefficient_rouge_6,
+      coefficient_vert_6_o => s_coefficient_vert_6,
+      coefficient_bleu_6_o => s_coefficient_bleu_6
+   );
    
    memoire_image_1 : memoire_image
    port map
@@ -271,9 +394,9 @@ begin
       clk_aff_i            => s_clk_aff,
       
    -- Interface d'écriture de l'image
-      ecriture_en_i        => '0',
-      ecriture_adresse_i   => (others => '0'),
-      ecriture_donnees_i   => (others => '0'),
+      ecriture_en_i        => s_ecriture_en1,
+      ecriture_adresse_i   => s_ecriture_adresse,
+      ecriture_donnees_i   => s_ecriture_donnees,
       
    -- Interface de lecture
       lecture_enable_i     => s_lecture_enable_in_1,
@@ -300,9 +423,9 @@ begin
       clk_aff_i            => s_clk_aff,
       
    -- Interface d'écriture de l'image
-      ecriture_en_i        => '0',
-      ecriture_adresse_i   => (others => '0'),
-      ecriture_donnees_i   => (others => '0'),
+      ecriture_en_i        => s_ecriture_en2,
+      ecriture_adresse_i   => s_ecriture_adresse,
+      ecriture_donnees_i   => s_ecriture_donnees,
       
    -- Interface de lecture
       lecture_enable_i     => s_lecture_enable_in_2,
@@ -329,9 +452,9 @@ begin
       clk_aff_i            => s_clk_aff,
       
    -- Interface d'écriture de l'image
-      ecriture_en_i        => '0',
-      ecriture_adresse_i   => (others => '0'),
-      ecriture_donnees_i   => (others => '0'),
+      ecriture_en_i        => s_ecriture_en3,
+      ecriture_adresse_i   => s_ecriture_adresse,
+      ecriture_donnees_i   => s_ecriture_donnees,
       
    -- Interface de lecture
       lecture_enable_i     => s_lecture_enable_in_3,
@@ -358,9 +481,9 @@ begin
       clk_aff_i            => s_clk_aff,
       
    -- Interface d'écriture de l'image
-      ecriture_en_i        => '0',
-      ecriture_adresse_i   => (others => '0'),
-      ecriture_donnees_i   => (others => '0'),
+      ecriture_en_i        => s_ecriture_en4,
+      ecriture_adresse_i   => s_ecriture_adresse,
+      ecriture_donnees_i   => s_ecriture_donnees,
       
    -- Interface de lecture
       lecture_enable_i     => s_lecture_enable_in_4,
@@ -387,9 +510,9 @@ begin
       clk_aff_i            => s_clk_aff,
       
    -- Interface d'écriture de l'image
-      ecriture_en_i        => '0',
-      ecriture_adresse_i   => (others => '0'),
-      ecriture_donnees_i   => (others => '0'),
+      ecriture_en_i        => s_ecriture_en5,
+      ecriture_adresse_i   => s_ecriture_adresse,
+      ecriture_donnees_i   => s_ecriture_donnees,
       
    -- Interface de lecture
       lecture_enable_i     => s_lecture_enable_in_5,
@@ -416,9 +539,9 @@ begin
       clk_aff_i            => s_clk_aff,
       
    -- Interface d'écriture de l'image
-      ecriture_en_i        => '0',
-      ecriture_adresse_i   => (others => '0'),
-      ecriture_donnees_i   => (others => '0'),
+      ecriture_en_i        => s_ecriture_en6,
+      ecriture_adresse_i   => s_ecriture_adresse,
+      ecriture_donnees_i   => s_ecriture_donnees,
       
    -- Interface de lecture
       lecture_enable_i     => s_lecture_enable_in_6,
@@ -437,13 +560,7 @@ begin
       couleur_pixel_o      => s_couleur_pixel_out_6
    );
    
-   affichage_inst1 : affichage
-   generic map
-   (
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  => X"B5",
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   => X"FF",
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   => X"6E"
-   )
+   affichage_inst1 : affichage -- U5_1 AW_4 S7_6
    port map
    (
    -- Signaux globaux
@@ -453,8 +570,10 @@ begin
       
    -- Commande
       rafraichissement_i      => s_rafraichissement,
-      maj_luminosite_toggle_i => '0',
-      luminosite_i            => X"00",
+      luminosite_i            => s_luminosite,
+      coefficient_rouge_i     => s_coefficient_rouge_1,--X"6C",
+      coefficient_vert_i      => s_coefficient_vert_1,--X"3D",
+      coefficient_bleu_i      => s_coefficient_bleu_1,--X"1F",
       
    -- Interface mémoire image
       -- Commandes
@@ -484,13 +603,7 @@ begin
    );
    io_driver_1_gclk_o <= s_driver_gclk;
    
-   affichage_inst2 : affichage
-   generic map
-   (
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  => X"B5",
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   => X"FF",
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   => X"6E"
-   )
+   affichage_inst2 : affichage -- U5_1 V9_5 T_7
    port map
    (
    -- Signaux globaux
@@ -500,8 +613,10 @@ begin
       
    -- Commande
       rafraichissement_i      => s_rafraichissement,
-      maj_luminosite_toggle_i => '0',
-      luminosite_i            => X"00",
+      luminosite_i            => s_luminosite,
+      coefficient_rouge_i     => s_coefficient_rouge_2,--X"40",
+      coefficient_vert_i      => s_coefficient_vert_2,--X"3C",
+      coefficient_bleu_i      => s_coefficient_bleu_2,--X"21",
       
    -- Interface mémoire image
       -- Commandes
@@ -531,13 +646,7 @@ begin
    );
    io_driver_2_gclk_o <= s_driver_gclk;
    
-   affichage_inst3 : affichage
-   generic map
-   (
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  => X"B5",
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   => X"FF",
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   => X"6E"
-   )
+   affichage_inst3 : affichage -- U5_1 V9_5 T_7
    port map
    (
    -- Signaux globaux
@@ -547,8 +656,10 @@ begin
       
    -- Commande
       rafraichissement_i      => s_rafraichissement,
-      maj_luminosite_toggle_i => '0',
-      luminosite_i            => X"00",
+      luminosite_i            => s_luminosite,
+      coefficient_rouge_i     => s_coefficient_rouge_3,--X"40",
+      coefficient_vert_i      => s_coefficient_vert_3,--X"3C",
+      coefficient_bleu_i      => s_coefficient_bleu_3,--X"21",
       
    -- Interface mémoire image
       -- Commandes
@@ -578,13 +689,7 @@ begin
    );
    io_driver_3_gclk_o <= s_driver_gclk;
    
-   affichage_inst4 : affichage
-   generic map
-   (
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  => X"B5",
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   => X"FF",
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   => X"6E"
-   )
+   affichage_inst4 : affichage -- U5_1 V9_5 T_7
    port map
    (
    -- Signaux globaux
@@ -594,8 +699,10 @@ begin
       
    -- Commande
       rafraichissement_i      => s_rafraichissement,
-      maj_luminosite_toggle_i => '0',
-      luminosite_i            => X"00",
+      luminosite_i            => s_luminosite,
+      coefficient_rouge_i     => s_coefficient_rouge_4,--X"40",
+      coefficient_vert_i      => s_coefficient_vert_4,--X"3C",
+      coefficient_bleu_i      => s_coefficient_bleu_4,--X"21",
       
    -- Interface mémoire image
       -- Commandes
@@ -625,13 +732,7 @@ begin
    );
    io_driver_4_gclk_o <= s_driver_gclk;
    
-   affichage_inst5 : affichage
-   generic map
-   (
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  => X"B5",
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   => X"FF",
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   => X"6E"
-   )
+   affichage_inst5 : affichage -- U5_1 V9_5 T_7
    port map
    (
    -- Signaux globaux
@@ -641,8 +742,10 @@ begin
       
    -- Commande
       rafraichissement_i      => s_rafraichissement,
-      maj_luminosite_toggle_i => '0',
-      luminosite_i            => X"00",
+      luminosite_i            => s_luminosite,
+      coefficient_rouge_i     => s_coefficient_rouge_5,--X"40",
+      coefficient_vert_i      => s_coefficient_vert_5,--X"3C",
+      coefficient_bleu_i      => s_coefficient_bleu_5,--X"21",
       
    -- Interface mémoire image
       -- Commandes
@@ -672,13 +775,7 @@ begin
    );
    io_driver_5_gclk_o <= s_driver_gclk;
    
-   affichage_inst6 : affichage
-   generic map
-   (
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  => X"B5",
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   => X"FF",
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   => X"6E"
-   )
+   affichage_inst6 : affichage -- U5_1 V9_5 T_7
    port map
    (
    -- Signaux globaux
@@ -688,8 +785,10 @@ begin
       
    -- Commande
       rafraichissement_i      => s_rafraichissement,
-      maj_luminosite_toggle_i => '0',
-      luminosite_i            => X"00",
+      luminosite_i            => s_luminosite,
+      coefficient_rouge_i     => s_coefficient_rouge_6,--X"40",
+      coefficient_vert_i      => s_coefficient_vert_6,--X"3C",
+      coefficient_bleu_i      => s_coefficient_bleu_6,--X"21",
       
    -- Interface mémoire image
       -- Commandes
@@ -719,6 +818,6 @@ begin
    );
    io_driver_6_gclk_o <= s_driver_gclk;
    
-   io_LED_o <= s_spi_donnees;
+   io_LED_o <= (others => '0');
    
 end architecture rtl_EcranLED;

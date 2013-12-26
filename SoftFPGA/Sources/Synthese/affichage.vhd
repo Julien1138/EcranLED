@@ -41,12 +41,6 @@ library work;
 use work.pkg_driver.all;
 
 entity affichage is
-   generic
-   (
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  : std_logic_vector( 7 downto 0) := X"B5";  --! Coefficient à appliquer à la couleur rouge
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   : std_logic_vector( 7 downto 0) := X"FF";  --! Coefficient à appliquer à la couleur verte
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   : std_logic_vector( 7 downto 0) := X"6E"   --! Coefficient à appliquer à la couleur bleue
-   );
    port
    (
    -- Signaux globaux
@@ -56,8 +50,10 @@ entity affichage is
       
    -- Commande
       rafraichissement_i      : in  std_logic;
-      maj_luminosite_toggle_i : in  std_logic;                       --! Mise à jour de la luminosité (inversion du signal à chaque fois)
       luminosite_i            : in  std_logic_vector( 7 downto 0);   --! Réglage de luminosité
+      coefficient_rouge_i     : in  std_logic_vector( 7 downto 0);  --! Coefficient à appliquer à la couleur rouge
+      coefficient_vert_i      : in  std_logic_vector( 7 downto 0);  --! Coefficient à appliquer à la couleur verte
+      coefficient_bleu_i      : in  std_logic_vector( 7 downto 0);  --! Coefficient à appliquer à la couleur bleue
       
    -- Interface mémoire image
       -- Commandes
@@ -100,9 +96,6 @@ architecture rtl_affichage of affichage is
    signal s_fifo_driver_full              : std_logic;                     --! La FIFO de pilotage des drivers est pleine
    signal s_fifo_driver_empty             : std_logic;                     --! La FIFO de pilotage des drivers est vide
    
-   -- Paramètres
-   signal s_luminosite                    : std_logic_vector( 7 downto 0); --! Réglage de luminosité
-   
    -- Sortie traitement
    signal s_traitement_lecture_enable    : std_logic;                     --! Enable données image
    signal s_traitement_lecture_donnees   : std_logic_vector( 7 downto 0); --! Données image
@@ -144,31 +137,7 @@ begin
       num_sortie_driver_o  => num_sortie_driver_o
    );
    
-   affichage_parametres_int : affichage_parametres
-   port map
-   (
-   -- Signaux globaux
-      rst_aff_i               => rst_aff_i,
-      clk_aff_i               => clk_aff_i,
-      
-   -- Paramètres
-      maj_luminosite_toggle_i => maj_luminosite_toggle_i,
-      luminosite_i            => luminosite_i,
-         
-   -- Status
-      mise_a_jour_i           => rafraichissement_i,
-      
-   -- Paramétrage synchronisé
-      luminosite_o            => s_luminosite
-   );
-   
    affichage_traitements_inst : affichage_traitements
-   generic map
-   (
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  => GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE,
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   => GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT,
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   => GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU
-   )
    port map
    (
    -- Signaux globaux
@@ -176,7 +145,10 @@ begin
       clk_opt_i            => clk_aff_i,
       
    -- Paramétrage
-      luminosite_i         => s_luminosite,
+      luminosite_i         => luminosite_i,
+      coefficient_rouge_i  => coefficient_rouge_i,
+      coefficient_vert_i   => coefficient_vert_i,
+      coefficient_bleu_i   => coefficient_bleu_i,
       
    -- Données image entrée
       lecture_enable_i     => lecture_enable_i,

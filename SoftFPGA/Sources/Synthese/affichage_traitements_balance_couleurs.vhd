@@ -53,6 +53,11 @@ entity affichage_traitements_balance_couleurs is
       rst_opt_i            : in  std_logic;                       --! Signal de reset vidéo
       clk_opt_i            : in  std_logic;                       --! Signal d'horloge vidéo
       
+   -- Paramètres
+      coefficient_rouge_i  : in  std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+      coefficient_vert_i   : in  std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+      coefficient_bleu_i   : in  std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
+      
    -- Données image entrée
       lecture_enable_i     : in  std_logic;                       --! Enable données image
       lecture_donnees_i    : in  std_logic_vector(15 downto 0);   --! Données image
@@ -110,9 +115,9 @@ begin
       end if;
    end process;
    
-   s_coefficient_couleur <= GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE when couleur_pixel_i = CST_AFFICHAGE_TRAITEMENTS_ROUGE else
-                            GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT  when couleur_pixel_i = CST_AFFICHAGE_TRAITEMENTS_VERT  else
-                            GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU  when couleur_pixel_i = CST_AFFICHAGE_TRAITEMENTS_BLEU  else
+   s_coefficient_couleur <= coefficient_rouge_i when couleur_pixel_i = CST_AFFICHAGE_TRAITEMENTS_ROUGE else
+                            coefficient_vert_i  when couleur_pixel_i = CST_AFFICHAGE_TRAITEMENTS_VERT  else
+                            coefficient_bleu_i  when couleur_pixel_i = CST_AFFICHAGE_TRAITEMENTS_BLEU  else
                             (others => '1');
    
    affichage_traitements_balance_couleurs_mult_inst : affichage_traitements_balance_couleurs_mult

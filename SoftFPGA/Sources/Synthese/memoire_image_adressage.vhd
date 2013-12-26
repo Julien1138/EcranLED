@@ -116,15 +116,15 @@ begin
                             s_num_driver_mod21 - 18;
    s_num_driver_mod3 <= s_num_driver_mod3_int(s_num_driver_mod3'range);
    
-   s_driver_chaine_monte_int <= '0' when num_driver_i <  21 else
+   s_driver_chaine_monte <= '0' when num_driver_i <  21 else
                                 '1' when num_driver_i <  42 else
                                 '0' when num_driver_i <  63 else
                                 '1' when num_driver_i <  84 else
                                 '0' when num_driver_i < 105 else
                                 '1';
    
-   s_driver_chaine_monte <= s_driver_chaine_monte_int      when num_chaine_driver_i = "00" else
-                            not s_driver_chaine_monte_int;
+   --s_driver_chaine_monte <= s_driver_chaine_monte_int      when num_chaine_driver_i = "00" else
+                            --not s_driver_chaine_monte_int;
    
    s_groupe_ligne_descendant <= "000" when s_num_driver_mod21 <  3 else
                                 "001" when s_num_driver_mod21 <  6 else
@@ -362,25 +362,25 @@ begin
                s_groupe_colonne  <= conv_std_logic_vector(5, 5);
             end if;
          elsif num_chaine_driver_i = "01" then
-            if num_driver_i < 21 then
+            if num_driver_i < 42 then
                s_groupe_colonne  <= conv_std_logic_vector(6, 5);
-            elsif num_driver_i < 42 then
-               s_groupe_colonne  <= conv_std_logic_vector(7, 5);
             elsif num_driver_i < 63 then
-               s_groupe_colonne  <= conv_std_logic_vector(8, 5);
+               s_groupe_colonne  <= conv_std_logic_vector(7, 5);
             elsif num_driver_i < 84 then
+               s_groupe_colonne  <= conv_std_logic_vector(8, 5);
+            elsif num_driver_i < 105 then
                s_groupe_colonne  <= conv_std_logic_vector(9, 5);
             else
                s_groupe_colonne  <= conv_std_logic_vector(10, 5);
             end if;
          elsif num_chaine_driver_i = "10" then
-            if num_driver_i < 21 then
+            if num_driver_i < 42 then
                s_groupe_colonne  <= conv_std_logic_vector(11, 5);
-            elsif num_driver_i < 42 then
-               s_groupe_colonne  <= conv_std_logic_vector(12, 5);
             elsif num_driver_i < 63 then
-               s_groupe_colonne  <= conv_std_logic_vector(13, 5);
+               s_groupe_colonne  <= conv_std_logic_vector(12, 5);
             elsif num_driver_i < 84 then
+               s_groupe_colonne  <= conv_std_logic_vector(13, 5);
+            elsif num_driver_i < 105 then
                s_groupe_colonne  <= conv_std_logic_vector(14, 5);
             else
                s_groupe_colonne  <= conv_std_logic_vector(15, 5);
@@ -401,7 +401,7 @@ begin
          s_rouge <= '0';
       elsif rising_edge(clk_aff_i) then
          
-         if num_driver_i > 104 and num_chaine_driver_i /= 0 then
+         if num_driver_i > 125 then
             s_rouge <= '0';
          else
             if s_driver_chaine_monte = '1' then
@@ -498,7 +498,7 @@ begin
          s_vert <= '0';
       elsif rising_edge(clk_aff_i) then
          
-         if num_driver_i > 104 and num_chaine_driver_i /= 0 then
+         if num_driver_i > 125 then
             s_vert <= '0';
          else
             if s_driver_chaine_monte = '1' then
@@ -595,7 +595,7 @@ begin
          s_bleu <= '0';
       elsif rising_edge(clk_aff_i) then
          
-         if num_driver_i > 104 and num_chaine_driver_i /= 0 then
+         if num_driver_i > 125 then
             s_bleu <= '0';
          else
             if s_driver_chaine_monte = '1' then

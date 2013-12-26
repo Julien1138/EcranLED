@@ -1,0 +1,61 @@
+
+# PlanAhead Generated physical constraints 
+
+NET "io_clk_i" LOC = B8;
+
+NET "io_spi_ss1_i" LOC = M14;
+NET "io_spi_ss2_i" LOC = M16;
+NET "io_spi_sck_i" LOC = L17;
+NET "io_spi_mosi_i" LOC = L15;
+NET "io_spi_miso_o" LOC = K12;
+
+NET "io_LED_o[0]" LOC = J14;
+NET "io_LED_o[1]" LOC = J15;
+NET "io_LED_o[2]" LOC = K15;
+NET "io_LED_o[3]" LOC = K14;
+NET "io_LED_o[4]" LOC = E16;
+NET "io_LED_o[5]" LOC = P16;
+NET "io_LED_o[6]" LOC = E4;
+NET "io_LED_o[7]" LOC = P4;
+
+NET "io_driver_6_dclk_o" LOC = B4;
+NET "io_driver_6_latch_o" LOC = A4;
+NET "io_driver_6_sdi1_o" LOC = B6;
+NET "io_driver_6_sdi2_o" LOC = C4;
+NET "io_driver_6_sdi3_o" LOC = C3;
+NET "io_driver_6_gclk_o" LOC = D5;
+
+NET "io_driver_5_dclk_o" LOC = C5;
+NET "io_driver_5_latch_o" LOC = F7;
+NET "io_driver_5_sdi1_o" LOC = C7;
+NET "io_driver_5_sdi2_o" LOC = A6;
+NET "io_driver_5_sdi3_o" LOC = E7;
+NET "io_driver_5_gclk_o" LOC = F8;
+
+NET "io_driver_4_dclk_o" LOC = D7;
+NET "io_driver_4_latch_o" LOC = E8;
+NET "io_driver_4_sdi1_o" LOC = A8;
+NET "io_driver_4_sdi2_o" LOC = C9;
+NET "io_driver_4_sdi3_o" LOC = E9;
+NET "io_driver_4_gclk_o" LOC = G9;
+
+NET "io_driver_3_dclk_o" LOC = F9;
+NET "io_driver_3_latch_o" LOC = D10;
+NET "io_driver_3_sdi1_o" LOC = A11;
+NET "io_driver_3_sdi2_o" LOC = B10;
+NET "io_driver_3_sdi3_o" LOC = A10;
+NET "io_driver_3_gclk_o" LOC = D11;
+
+NET "io_driver_2_dclk_o" LOC = E10;
+NET "io_driver_2_latch_o" LOC = B11;
+NET "io_driver_2_sdi1_o" LOC = F11;
+NET "io_driver_2_sdi2_o" LOC = E11;
+NET "io_driver_2_sdi3_o" LOC = C11;
+NET "io_driver_2_gclk_o" LOC = E12;
+
+NET "io_driver_1_dclk_o" LOC = F12;
+NET "io_driver_1_latch_o" LOC = A13;
+NET "io_driver_1_sdi1_o" LOC = A14;
+NET "io_driver_1_sdi2_o" LOC = E13;
+NET "io_driver_1_sdi3_o" LOC = B13;
+NET "io_driver_1_gclk_o" LOC = C14;
