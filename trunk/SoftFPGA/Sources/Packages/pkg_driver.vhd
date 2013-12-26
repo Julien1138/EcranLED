@@ -49,23 +49,26 @@ package pkg_driver is
    ------------------------------------------------------------------------------------------------
    -- Constantes du module horloges
    ------------------------------------------------------------------------------------------------
-   constant CST_HORLOGES_DEMI_PERIODE_DCLK_DRIVER        : std_logic_vector( 7 downto 0) := X"0F";    --! Demi-periode de l'horloge de données du driver de LED (horloge affichage @ 30 MHz)
-   constant CST_HORLOGES_DEMI_PERIODE_GCLK_DRIVER        : std_logic_vector( 7 downto 0) := X"0F";    --! Demi-periode de l'horloge de PWM du driver de LED (horloge affichage @ 30 MHz)
+   constant CST_HORLOGES_DEMI_PERIODE_DCLK_DRIVER        : std_logic_vector( 7 downto 0) := X"1F";    --! Demi-periode de l'horloge de données du driver de LED (horloge affichage @ 30 MHz)
+   constant CST_HORLOGES_DEMI_PERIODE_GCLK_DRIVER        : std_logic_vector( 7 downto 0) := X"1F";    --! Demi-periode de l'horloge de PWM du driver de LED (horloge affichage @ 30 MHz)
    
    ------------------------------------------------------------------------------------------------
    -- Constantes du module interpreteur
    ------------------------------------------------------------------------------------------------
-   constant CST_INTERPRETEUR_FILTRE_NUMERO_AFFICHEUR     : std_logic                     := '1';      --! Activation du filtre du numéro d'afficheur dans les trames reçues
-   constant CST_INTERPRETEUR_NUMERO_AFFICHEUR_BROADCAST  : std_logic_vector( 7 downto 0) := X"0E";    --! Valeur de numéro d'afficheur pour le broadcast
-   constant CST_INTERPRETEUR_ADRESSE_LUMINOSITE          : std_logic_vector(11 downto 0) := X"001";   --! Adresse du paramètre de luminosité
-   constant CST_INTERPRETEUR_ADRESSE_MAJ_IMAGE           : std_logic_vector(11 downto 0) := X"49E";   --! Adresse de mise à jour de l'image à afficher
-   constant CST_INTERPRETEUR_ADRESSE_DEFILEMENT          : std_logic_vector(11 downto 0) := X"FFD";   --! Adresse de l'activation du défilement
-   constant CST_INTERPRETEUR_ADRESSE_AFFICHEUR_ETEINT    : std_logic_vector(11 downto 0) := X"FFC";   --! Adresse d'extinction de l'afficheur
+   constant CST_INTERPRETEUR_HEADER                      : std_logic_vector( 7 downto 0) := X"A2";    --! Valeur de numéro d'afficheur pour le broadcast
+   constant CST_INTERPRETEUR_DERNIERE_COLONNE            : std_logic_vector( 7 downto 0) := X"BF";    --! Numéro de la dernière colonne de l'image
+   constant CST_INTERPRETEUR_DERNIERE_COLONNE_ECRAN1     : std_logic_vector( 7 downto 0) := X"1F";    --! Numéro de la dernière colonne de l'image du premier écran
+   constant CST_INTERPRETEUR_DERNIERE_COLONNE_ECRAN2     : std_logic_vector( 7 downto 0) := X"3F";    --! Numéro de la dernière colonne de l'image du second écran
+   constant CST_INTERPRETEUR_DERNIERE_COLONNE_ECRAN3     : std_logic_vector( 7 downto 0) := X"5F";    --! Numéro de la dernière colonne de l'image du troisième écran
+   constant CST_INTERPRETEUR_DERNIERE_COLONNE_ECRAN4     : std_logic_vector( 7 downto 0) := X"7F";    --! Numéro de la dernière colonne de l'image du quatrième écran
+   constant CST_INTERPRETEUR_DERNIERE_COLONNE_ECRAN5     : std_logic_vector( 7 downto 0) := X"9F";    --! Numéro de la dernière colonne de l'image du cinquième écran
+   constant CST_INTERPRETEUR_DERNIERE_COLONNE_ECRAN6     : std_logic_vector( 7 downto 0) := X"BF";    --! Numéro de la dernière colonne de l'image du sixième écran
+   constant CST_INTERPRETEUR_DERNIERE_LIGNE              : std_logic_vector( 7 downto 0) := X"38";    --! Numéro de la dernière ligne d'image reçue
    
    ------------------------------------------------------------------------------------------------
    -- Constantes du module affichage
    ------------------------------------------------------------------------------------------------
-   constant CST_AFFICHAGE_RAFRAICHISSEMENT_PERIODE_RAFRAICHISSEMENT  : std_logic_vector(31 downto 0) := X"0000AFC8"; --! 1.5 ms (horloge affichage @ 30 MHz)
+   --constant CST_AFFICHAGE_RAFRAICHISSEMENT_PERIODE_RAFRAICHISSEMENT  : std_logic_vector(31 downto 0) := X"0000AFC8"; --! 1.5 ms (horloge affichage @ 30 MHz)
    constant CST_AFFICHAGE_ORDONNANCEUR_IDX_DERNIER_DRIVER            : std_logic_vector( 7 downto 0) := X"7D";       --! 125
    constant CST_AFFICHAGE_TRAITEMENTS_COULEUR                        : std_logic                     := '1';         --! 0 = N&B; 1 = Couleur
    constant CST_AFFICHAGE_TRAITEMENTS_BLANC                          : std_logic_vector( 1 downto 0) := "00";        --! Le pixel est de couleur blanche
@@ -79,7 +82,38 @@ package pkg_driver is
 ---------------------------------------------------------------------------------------------------
 -- Déclaration des composants
 ---------------------------------------------------------------------------------------------------
+   component input_filter is
+      generic
+      (
+         GNR_SIZE : integer := 5
+      );
+      port
+      (
+      -- Signaux globaux
+         rst_aff_i   : in  std_logic;                       --! Signal de reset affichage
+         clk_aff_i   : in  std_logic;                       --! Signal d'horloge affichage
+         
+         in_i        : in  std_logic;
+         out_o       : out std_logic
+      );
+   end component;
    
+   component spi_receiver is
+      port
+      (
+      -- Signaux globaux
+         rst_aff_i      : in  std_logic;                       --! Signal de reset affichage
+         clk_aff_i      : in  std_logic;                       --! Signal d'horloge affichage
+         
+         io_sck_i       : in std_logic;         --! SPI SCK signal
+         io_ss_i        : in std_logic;         --! SPI SS signal
+         io_mosi_i      : in std_logic;         --! SPI MOSI signal
+         
+         nouv_donnee_o  : out std_logic;        --! Burst when new data avaliable
+         donnee_o       : out std_logic_vector(7 downto 0)  --! Deserialized data
+      );
+   end component;
+
    ------------------------------------------------------------------------------------------------
    -- Composants du module horloges
    ------------------------------------------------------------------------------------------------
@@ -94,6 +128,56 @@ package pkg_driver is
          clk_aff_o      : out std_logic;  --! Signal d'horloge affichage
          driver_dclk_o  : out std_logic;  --! Horloge de données du driver de LED (synchrone de clk_aff_i)
          driver_gclk_o  : out std_logic   --! Horloge de PWM du driver de LED (synchrone de clk_aff_i)
+      );
+   end component;
+   
+   ------------------------------------------------------------------------------------------------
+   -- Composants du module interpreteur
+   ------------------------------------------------------------------------------------------------
+   component interpreteur is
+      port
+      (
+      -- Signaux globaux
+         rst_aff_i            : in  std_logic;                       --! Signal de reset affichage
+         clk_aff_i            : in  std_logic;                       --! Signal d'horloge affichage
+         
+      -- Interface SPI
+         NewData_i            : in  std_logic;
+         Data_i               : in  std_logic_vector( 7 downto 0);
+         
+      -- Interface d'écriture de l'image
+         ecriture_en1_o       : out std_logic;
+         ecriture_en2_o       : out std_logic;
+         ecriture_en3_o       : out std_logic;
+         ecriture_en4_o       : out std_logic;
+         ecriture_en5_o       : out std_logic;
+         ecriture_en6_o       : out std_logic;
+         ecriture_adresse_o   : out std_logic_vector(12 downto 0);
+         ecriture_donnees_o   : out std_logic_vector( 7 downto 0);
+         
+      -- Mise à jour de l'affichage
+         rafraichissement_o   : out std_logic;
+         
+      -- Paramètres
+         luminosite_o         : out std_logic_vector( 7 downto 0);   --! Réglage de luminosité
+         coefficient_rouge_1_o: out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+         coefficient_vert_1_o : out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+         coefficient_bleu_1_o : out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
+         coefficient_rouge_2_o: out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+         coefficient_vert_2_o : out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+         coefficient_bleu_2_o : out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
+         coefficient_rouge_3_o: out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+         coefficient_vert_3_o : out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+         coefficient_bleu_3_o : out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
+         coefficient_rouge_4_o: out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+         coefficient_vert_4_o : out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+         coefficient_bleu_4_o : out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
+         coefficient_rouge_5_o: out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+         coefficient_vert_5_o : out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+         coefficient_bleu_5_o : out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
+         coefficient_rouge_6_o: out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+         coefficient_vert_6_o : out std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+         coefficient_bleu_6_o : out std_logic_vector( 7 downto 0)    --! Coefficient à appliquer à la couleur bleue
       );
    end component;
 
@@ -189,12 +273,6 @@ package pkg_driver is
    ------------------------------------------------------------------------------------------------
    
    component affichage is
-      generic
-      (
-         GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  : std_logic_vector( 7 downto 0) := X"B5";  --! Coefficient à appliquer à la couleur rouge
-         GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   : std_logic_vector( 7 downto 0) := X"FF";  --! Coefficient à appliquer à la couleur verte
-         GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   : std_logic_vector( 7 downto 0) := X"6E"   --! Coefficient à appliquer à la couleur bleue
-      );
       port
       (
       -- Signaux globaux
@@ -204,8 +282,10 @@ package pkg_driver is
          
       -- Commande
          rafraichissement_i      : in  std_logic;
-         maj_luminosite_toggle_i : in  std_logic;                       --! Mise à jour de la luminosité (inversion du signal à chaque fois)
          luminosite_i            : in  std_logic_vector( 7 downto 0);   --! Réglage de luminosité
+         coefficient_rouge_i     : in  std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+         coefficient_vert_i      : in  std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+         coefficient_bleu_i      : in  std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
          
       -- Interface mémoire image
          -- Commandes
@@ -278,12 +358,6 @@ package pkg_driver is
    end component;
    
    component affichage_traitements is
-      generic
-      (
-         GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  : std_logic_vector( 7 downto 0) := X"B5";  --! Coefficient à appliquer à la couleur rouge
-         GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   : std_logic_vector( 7 downto 0) := X"FF";  --! Coefficient à appliquer à la couleur verte
-         GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   : std_logic_vector( 7 downto 0) := X"6E"   --! Coefficient à appliquer à la couleur bleue
-      );
       port
       (
       -- Signaux globaux
@@ -292,6 +366,9 @@ package pkg_driver is
          
       -- Paramétrage
          luminosite_i         : in  std_logic_vector( 7 downto 0);   --! Réglage de luminosité
+         coefficient_rouge_i  : in  std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+         coefficient_vert_i   : in  std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+         coefficient_bleu_i   : in  std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
          
       -- Données image entrée
          lecture_enable_i     : in  std_logic;                       --! Enable données image
@@ -325,17 +402,16 @@ package pkg_driver is
    end component;
    
    component affichage_traitements_balance_couleurs is
-      generic
-      (
-         GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  : std_logic_vector( 7 downto 0) := X"B5";  --! Coefficient à appliquer à la couleur rouge
-         GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   : std_logic_vector( 7 downto 0) := X"FF";  --! Coefficient à appliquer à la couleur verte
-         GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   : std_logic_vector( 7 downto 0) := X"6E"   --! Coefficient à appliquer à la couleur bleue
-      );
       port
       (
       -- Signaux globaux
          rst_opt_i            : in  std_logic;                       --! Signal de reset vidéo
          clk_opt_i            : in  std_logic;                       --! Signal d'horloge vidéo
+         
+      -- Paramètres
+         coefficient_rouge_i  : in  std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur rouge
+         coefficient_vert_i   : in  std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur verte
+         coefficient_bleu_i   : in  std_logic_vector( 7 downto 0);   --! Coefficient à appliquer à la couleur bleue
             
       -- Données image entrée
          lecture_enable_i     : in  std_logic;                       --! Enable données image

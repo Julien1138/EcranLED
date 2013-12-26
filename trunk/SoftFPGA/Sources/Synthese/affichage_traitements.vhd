@@ -41,12 +41,6 @@ library work;
 use work.pkg_driver.all;
 
 entity affichage_traitements is
-   generic
-   (
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  : std_logic_vector( 7 downto 0) := X"B5";  --! Coefficient à appliquer à la couleur rouge
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   : std_logic_vector( 7 downto 0) := X"FF";  --! Coefficient à appliquer à la couleur verte
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   : std_logic_vector( 7 downto 0) := X"6E"   --! Coefficient à appliquer à la couleur bleue
-   );
    port
    (
    -- Signaux globaux
@@ -55,6 +49,9 @@ entity affichage_traitements is
       
    -- Paramétrage
       luminosite_i         : in  std_logic_vector( 7 downto 0);   --! Réglage de luminosité
+      coefficient_rouge_i  : in  std_logic_vector( 7 downto 0);  --! Coefficient à appliquer à la couleur rouge
+      coefficient_vert_i   : in  std_logic_vector( 7 downto 0);  --! Coefficient à appliquer à la couleur verte
+      coefficient_bleu_i   : in  std_logic_vector( 7 downto 0);  --! Coefficient à appliquer à la couleur bleue
       
    -- Données image entrée
       lecture_enable_i     : in  std_logic;                       --! Enable données image
@@ -118,17 +115,16 @@ begin
    s_entree_couleur_pixel        <= couleur_pixel_i;
    
    affichage_traitements_balance_couleurs_inst : affichage_traitements_balance_couleurs
-   generic map
-   (
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE  => GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_ROUGE,
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT   => GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_VERT,
-      GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU   => GNR_AFFICHAGE_TRAITEMENTS_COEFFICIENT_BLEU
-   )
    port map
    (
    -- Signaux globaux
       rst_opt_i            => rst_opt_i,
       clk_opt_i            => clk_opt_i,
+      
+   -- Paramètres
+      coefficient_rouge_i  => coefficient_rouge_i,
+      coefficient_vert_i   => coefficient_vert_i,
+      coefficient_bleu_i   => coefficient_bleu_i,
       
    -- Données image entrée
       lecture_enable_i     => s_entree_lecture_enable,
