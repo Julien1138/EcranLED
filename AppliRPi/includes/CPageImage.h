@@ -11,6 +11,7 @@
 class CPageImage : public CPage
 {
    private :
+   std::string m_sSource;
    
    public :
    CPageImage();                                         // Constructeur

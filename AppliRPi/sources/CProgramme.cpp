@@ -80,7 +80,6 @@ void CProgramme::Charger()
    // Préchargement des images
    for (std::vector<CPage*>::iterator it = m_vectPages.begin(); it != m_vectPages.end(); it++)
    {
-      // std::cout << "Tempo : " << (*it)->GetTempo() << std::endl;
       (*it)->PreloadImage();
    }
 }
@@ -111,7 +110,7 @@ bool CProgramme::VerifNouvelleConfig()
 
 void CProgramme::Afficher()
 {
-   //while(true)
+   while(true)
    {
       if (this->VerifNouvelleConfig())
       {
