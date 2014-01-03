@@ -10,7 +10,7 @@
 
 #include "CSPI.h"
 
-#define CPAGE_RESOLUTION_US   1000   // 10 images par seconde
+#define CPAGE_RESOLUTION_US   40000   // 25 images par seconde
 
 class CPage
 {
