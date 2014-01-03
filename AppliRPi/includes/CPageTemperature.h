@@ -1,6 +1,8 @@
 #ifndef CPAGETEMPERATURE_H
 #define CPAGETEMPERATURE_H
 
+#define FICHIER_METEO "data/meteo.txt"
+
 #include <string>
 #include <map>
 #include <sstream>
@@ -11,6 +13,8 @@
 class CPageTemperature : public CPage
 {
    private :
+   std::string m_sFilePath;
+   int         m_iDateModifFichier;
    
    public :
    CPageTemperature();                                         // Constructeur
@@ -19,6 +23,7 @@ class CPageTemperature : public CPage
 
    void PreloadImage();                                  // Pré-chargement de l'image
    void UpdateImage();                                   // Mise à jour de l'image
+   bool VerifNouveauFichier();
 };
 
 #endif //CPAGETEMPERATURE_H
