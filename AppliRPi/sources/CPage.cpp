@@ -30,7 +30,6 @@ m_Image(Magick::Geometry(192, 56), Magick::Color("black"))
 
 CPage::~CPage()
 {
-   //delete m_pPixels;
    delete m_pSPI;
 }
 
@@ -89,10 +88,8 @@ void CPage::EnvoiImage()
 
 void CPage::Afficher()
 {
-   struct timeval StopTime;
-   struct timeval CurTime;
-   unsigned int PrevSchedule(0);
-   unsigned int NextSchedule(CPAGE_RESOLUTION_US);
+   struct timeval StopTime, CurTime;
+   unsigned int PrevSchedule, NextSchedule;
    
    gettimeofday(&StopTime, NULL);
    StopTime.tv_usec += ((unsigned int) (m_fTempo*1000000.0)) % 1000000;
@@ -102,7 +99,10 @@ void CPage::Afficher()
       StopTime.tv_sec += 1;
    }
    StopTime.tv_usec = StopTime.tv_usec % 1000000;
+
    gettimeofday(&CurTime, NULL);
+   PrevSchedule = CurTime.tv_usec;
+   NextSchedule = (CurTime.tv_usec + CPAGE_RESOLUTION_US) % 1000000;
    
    while (!(CurTime.tv_sec >= StopTime.tv_sec and CurTime.tv_usec >= StopTime.tv_usec))
    {
@@ -129,6 +129,7 @@ void CPage::Afficher()
             NextSchedule = (NextSchedule + CPAGE_RESOLUTION_US) % 1000000;
          }
       }
+      usleep(CPAGE_RESOLUTION_US/10);
    }
 }
 
