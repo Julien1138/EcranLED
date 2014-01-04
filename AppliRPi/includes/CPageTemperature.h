@@ -1,8 +1,6 @@
 #ifndef CPAGETEMPERATURE_H
 #define CPAGETEMPERATURE_H
 
-#define FICHIER_METEO "data/meteo.txt"
-
 #include <string>
 #include <map>
 #include <sstream>

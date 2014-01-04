@@ -1,6 +1,8 @@
 #ifndef CPAGE_H
 #define CPAGE_H
 
+#define FICHIER_METEO "data/meteo.txt"
+
 #include <string>
 #include <map>
 #include <sstream>

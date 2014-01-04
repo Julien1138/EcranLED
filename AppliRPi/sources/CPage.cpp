@@ -77,10 +77,10 @@ void CPage::EnvoiImage()
       tx[idx++] = (unsigned char) row;
       for ( ssize_t column = 0; column < 192 ; column++ )
       {
-         Magick::ColorRGB RGB(*m_pPixels++);
-         tx[idx++] = (unsigned char) (RGB.red()*255.0);
-         tx[idx++] = (unsigned char) (RGB.green()*255.0);
-         tx[idx++] = (unsigned char) (RGB.blue()*255.0);
+         Magick::ColorRGB Color(*m_pPixels++);
+         tx[idx++] = (unsigned char) (Color.red()*255.0);
+         tx[idx++] = (unsigned char) (Color.green()*255.0);
+         tx[idx++] = (unsigned char) (Color.blue()*255.0);
       }
       m_pSPI->Envoi((unsigned char*) &tx, 2+3*192);
    }

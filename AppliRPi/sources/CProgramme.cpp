@@ -4,6 +4,7 @@
 #include "../includes/CPageImage.h"
 #include "../includes/CPageTexte1.h"
 #include "../includes/CPageTexte2.h"
+#include "../includes/CPageMeteo.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -83,6 +84,11 @@ void CProgramme::Charger()
                                                    mapParametres["Texte1"],
                                                    mapParametres["Texte2"],
                                                    mapParametres["Defilement"]);
+               m_vectPages.push_back(Page);
+            }
+            else if (mapParametres["Type"] == "Meteo")
+            {
+               CPageMeteo* Page = new CPageMeteo(mapParametres["Tempo"]);
                m_vectPages.push_back(Page);
             }
          }
