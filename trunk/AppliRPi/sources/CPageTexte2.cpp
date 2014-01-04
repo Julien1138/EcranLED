@@ -80,6 +80,8 @@ void CPageTexte2::PreloadImage()
 
    Image.read("tmp.bmp");
    m_iLargeurLigne2 = Image.baseColumns();
+
+   // Ecriture du texte
    m_Image.font("Helvetica");
    m_Image.strokeColor("red");   // On utilise le rouge en niveau de gris
    m_Image.fillColor("red");     // On utilise le rouge en niveau de gris

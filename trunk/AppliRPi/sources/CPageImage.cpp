@@ -22,7 +22,7 @@ void CPageImage::PreloadImage()
    Magick::Image Image;
    Image.read(("/var/www/images/" + m_sSource).c_str());
    Image.resize(Magick::Geometry(192, 56));
-   m_Image = Image;
+   m_Image.draw(Magick::DrawableCompositeImage(0, 0, Image));
 }
 
 void CPageImage::UpdateImage()
