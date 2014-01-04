@@ -30,8 +30,11 @@
       echo "<h2>Page d'affichage ";
       switch ($Page->Parametres()['Type'])
       {
+         case 'Date' :
+            echo "de la date";
+            break;
          case 'Heure' :
-            echo "de l'horloge";
+            echo "de l'heure";
             break;
          case 'Temperature' :
             echo "de la température extérieure";
@@ -86,6 +89,7 @@
    <p>
       Ajouter une page de type
       <select name="Type">
+         <!--option value="Date">Date</option-->
          <option value="Heure">Heure</option>
          <option value="Temperature">Température</option>
          <option value="Meteo">Météo</option>
