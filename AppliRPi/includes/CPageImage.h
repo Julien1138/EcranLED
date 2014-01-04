@@ -12,14 +12,15 @@ class CPageImage : public CPage
 {
    private :
    std::string m_sSource;
+
+   void UpdateImage();                           // Mise à jour de l'image
    
    public :
    CPageImage();                                         // Constructeur
    CPageImage(std::string sTempo, std::string sSource);  // Constructeur
    CPageImage(const CPageImage& PageImage);              // Constructeur de copie
 
-   void PreloadImage();                                  // Pré-chargement de l'image
-   void UpdateImage();                                   // Mise à jour de l'image
+   void PreloadImage();                               // Pré-chargement de l'image
 };
 
 #endif //CPAGEIMAGE_H

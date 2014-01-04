@@ -1,7 +1,7 @@
 #include "../includes/CPageTexte2.h"
 
 CPageTexte2::CPageTexte2() :
-CPage(),
+CPageTexte(),
 m_sTexte1("Vide"),
 m_sTexte2("Vide"),
 m_bDefilement(false),
@@ -9,8 +9,8 @@ m_iLargeurLigne2(0)
 {
 }
 
-CPageTexte2::CPageTexte2(std::string sTempo, std::string sTexte1, std::string sTexte2, std::string sDefilement) :
-CPage(sTempo),
+CPageTexte2::CPageTexte2(std::string sTempo, float fCoefRouge, float fCoefVert, float fCoefBleu, std::string sTexte1, std::string sTexte2, std::string sDefilement) :
+CPageTexte(sTempo, fCoefRouge, fCoefVert, fCoefBleu),
 m_sTexte1(sTexte1),
 m_sTexte2(sTexte2),
 m_bDefilement(sDefilement == "oui"),
@@ -19,7 +19,7 @@ m_iLargeurLigne2(0)
 }
 
 CPageTexte2::CPageTexte2(const CPageTexte2& PageTexte2) :
-CPage((CPage&) PageTexte2),
+CPageTexte((CPageTexte&) PageTexte2),
 m_sTexte1(PageTexte2.m_sTexte1),
 m_sTexte2(PageTexte2.m_sTexte2),
 m_bDefilement(PageTexte2.m_bDefilement),
@@ -47,8 +47,8 @@ void CPageTexte2::PreloadImage()
 std::cout << "largeur : " << m_iLargeurLigne2 << "x" << iDummy << std::endl;*/
 
    m_Image.font("Helvetica");
-   m_Image.strokeColor("white");
-   m_Image.fillColor("white");
+   m_Image.strokeColor("red");   // On utilise le rouge en niveau de gris
+   m_Image.fillColor("red");   // On utilise le rouge en niveau de gris
    m_Image.fontPointsize(26);
    m_Image.draw(Magick::DrawableText(0,20,m_sTexte1.c_str()));
    if (m_bDefilement)

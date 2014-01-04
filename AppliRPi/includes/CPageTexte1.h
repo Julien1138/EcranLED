@@ -6,20 +6,21 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
-#include "../includes/CPage.h"
+#include "../includes/CPageTexte.h"
 
-class CPageTexte1 : public CPage
+class CPageTexte1 : public CPageTexte
 {
-   private :
+   protected :
    std::string m_sTexte;
+
+   virtual void UpdateImage();                                   // Mise à jour de l'image
    
    public :
    CPageTexte1();                                        // Constructeur
-   CPageTexte1(std::string sTempo, std::string sTexte);  // Constructeur
+   CPageTexte1(std::string sTempo, float fCoefRouge, float fCoefVert, float fCoefBleu, std::string sTexte);  // Constructeur
    CPageTexte1(const CPageTexte1& PageTexte1);           // Constructeur de copie
 
-   void PreloadImage();                                  // Pré-chargement de l'image
-   void UpdateImage();                                   // Mise à jour de l'image
+   virtual void PreloadImage();                                  // Pré-chargement de l'image
 };
 
 #endif //CPAGETEXTE1_H

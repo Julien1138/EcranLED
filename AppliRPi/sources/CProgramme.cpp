@@ -44,27 +44,45 @@ void CProgramme::Charger()
             // Choix de la classe en fonction du type
             if (mapParametres["Type"] == "Heure")
             {
-               CPageHeure* Page = new CPageHeure(mapParametres["Tempo"], mapParametres["Format"]);
+               CPageHeure* Page = new CPageHeure(mapParametres["Tempo"],
+                                                 255.0,
+                                                 255.0,
+                                                 255.0,
+                                                 mapParametres["Format"]);
                m_vectPages.push_back(Page);
             }
             else if (mapParametres["Type"] == "Temperature")
             {
-               CPageTemperature* Page = new CPageTemperature(mapParametres["Tempo"]);
+               CPageTemperature* Page = new CPageTemperature(mapParametres["Tempo"],
+                                                             255.0,
+                                                             255.0,
+                                                             255.0);
                m_vectPages.push_back(Page);
             }
             else if (mapParametres["Type"] == "Image")
             {
-               CPageImage* Page = new CPageImage(mapParametres["Tempo"], mapParametres["Source"]);
+               CPageImage* Page = new CPageImage(mapParametres["Tempo"],
+                                                 mapParametres["Source"]);
                m_vectPages.push_back(Page);
             }
             else if (mapParametres["Type"] == "Texte1Ligne")
             {
-               CPageTexte1* Page = new CPageTexte1(mapParametres["Tempo"], mapParametres["Texte"]);
+               CPageTexte1* Page = new CPageTexte1(mapParametres["Tempo"],
+                                                   255.0,
+                                                   255.0,
+                                                   255.0,
+                                                   mapParametres["Texte"]);
                m_vectPages.push_back(Page);
             }
             else if (mapParametres["Type"] == "Texte2Lignes")
             {
-               CPageTexte2* Page = new CPageTexte2(mapParametres["Tempo"], mapParametres["Texte1"], mapParametres["Texte2"], mapParametres["Defilement"]);
+               CPageTexte2* Page = new CPageTexte2(mapParametres["Tempo"],
+                                                   255.0,
+                                                   255.0,
+                                                   255.0,
+                                                   mapParametres["Texte1"],
+                                                   mapParametres["Texte2"],
+                                                   mapParametres["Defilement"]);
                m_vectPages.push_back(Page);
             }
          }
