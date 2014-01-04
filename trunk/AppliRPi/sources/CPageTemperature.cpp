@@ -5,30 +5,22 @@
 #include <unistd.h>
 
 CPageTemperature::CPageTemperature() :
-CPage(),
+CPageTexte1(),
 m_iDateModifFichier(0)
 {
    m_sFilePath = FICHIER_METEO;
 }
 
-CPageTemperature::CPageTemperature(std::string sTempo) :
-CPage(sTempo),
+CPageTemperature::CPageTemperature(std::string sTempo, float fCoefRouge, float fCoefVert, float fCoefBleu) :
+CPageTexte1(sTempo, fCoefRouge, fCoefVert, fCoefBleu, ""),
 m_iDateModifFichier(0)
 {
    m_sFilePath = FICHIER_METEO;
 }
 
 CPageTemperature::CPageTemperature(const CPageTemperature& PageTemperature) :
-CPage((CPage&) PageTemperature)
+CPageTexte1((CPageTexte1&) PageTemperature)
 {
-}
-
-void CPageTemperature::PreloadImage()
-{
-   m_Image.font("Helvetica");
-   m_Image.strokeColor("white");
-   m_Image.fillColor("white");
-   m_Image.fontPointsize(70);
 }
 
 void CPageTemperature::UpdateImage()
@@ -48,7 +40,7 @@ void CPageTemperature::UpdateImage()
                sprintf(buffer, "%s°C", (sLigne.substr(12, sLigne.length()-12)).c_str());
 
                m_Image.erase();
-               m_Image.annotate(buffer, Magick::NorthGravity);
+               m_Image.annotate(buffer, Magick::CenterGravity);
             }
          }
          ifsFichier.close();

@@ -20,17 +20,17 @@ class CPage
    Magick::PixelPacket * m_pPixels; // Image bas niveau
    CSPI* m_pSPI;
    
-   void EnvoiImage();                        // Envoi de l'image sur le lien SPI
+   virtual void EnvoiImage();                        // Envoi de l'image sur le lien SPI
    virtual void UpdateImage() = 0;           // Mise à jour de l'image de la page
    
    public :
    CPage();
-   ~CPage();
+   virtual ~CPage();
    CPage(std::string sTempo);
    CPage(const CPage& Page);
 
    virtual void PreloadImage() = 0;          // Pré-chargement de l'image de la page
-   void Afficher();                          // Affichage de la page
+   void Afficher();                  // Affichage de la page
 
    float GetTempo();                         // Accès au paramètre Tempo
    Magick::Image* GetpImage();
