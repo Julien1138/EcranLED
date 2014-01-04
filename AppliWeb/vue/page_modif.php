@@ -19,7 +19,8 @@
    }
    ?>
    <?php
-   if ($Page->Parametres()['Type'] == 'Heure' ||
+   if ($Page->Parametres()['Type'] == 'Date' ||
+       $Page->Parametres()['Type'] == 'Heure' ||
        $Page->Parametres()['Type'] == 'Temperature' ||
        $Page->Parametres()['Type'] == 'Texte1Ligne' ||
        $Page->Parametres()['Type'] == 'Texte2Lignes')
