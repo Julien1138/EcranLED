@@ -47,23 +47,23 @@ void CPage::EnvoiImage()
    tx[idx++] = 0x80; // Coefficient vert Ecran 1
    tx[idx++] = 0x60; // Coefficient bleu Ecran 1
 
-   tx[idx++] = 0x2A; // Coefficient rouge Ecran 2
+   tx[idx++] = 0x25; // Coefficient rouge Ecran 2
    tx[idx++] = 0x28; // Coefficient vert Ecran 2
    tx[idx++] = 0x17; // Coefficient bleu Ecran 2
 
-   tx[idx++] = 0x2A; // Coefficient rouge Ecran 3
+   tx[idx++] = 0x25; // Coefficient rouge Ecran 3
    tx[idx++] = 0x28; // Coefficient vert Ecran 3
    tx[idx++] = 0x17; // Coefficient bleu Ecran 3
 
-   tx[idx++] = 0x2A; // Coefficient rouge Ecran 4
+   tx[idx++] = 0x25; // Coefficient rouge Ecran 4
    tx[idx++] = 0x28; // Coefficient vert Ecran 4
    tx[idx++] = 0x17; // Coefficient bleu Ecran 4
 
-   tx[idx++] = 0x2A; // Coefficient rouge Ecran 5
+   tx[idx++] = 0x25; // Coefficient rouge Ecran 5
    tx[idx++] = 0x28; // Coefficient vert Ecran 5
    tx[idx++] = 0x17; // Coefficient bleu Ecran 5
 
-   tx[idx++] = 0x2A; // Coefficient rouge Ecran 6
+   tx[idx++] = 0x25; // Coefficient rouge Ecran 6
    tx[idx++] = 0x28; // Coefficient vert Ecran 6
    tx[idx++] = 0x17; // Coefficient bleu Ecran 6
    m_pSPI->Envoi((unsigned char*) &tx, 2+3*192);

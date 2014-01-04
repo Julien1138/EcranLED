@@ -14,6 +14,7 @@ class CPageTexte2 : public CPageTexte
    std::string m_sTexte1;
    std::string m_sTexte2;
    bool        m_bDefilement;
+   int         m_iLargeurLigne1;
    int         m_iLargeurLigne2;
 
    void UpdateImage();                                   // Mise à jour de l'image
