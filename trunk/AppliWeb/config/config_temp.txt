@@ -1,28 +1,36 @@
 [Configuration]
-NombreDePages=5
+NombreDePages=6
 
 [Page00]
 Type=Heure
 Tempo=2.5
 Format=12H
+Couleur=#FF0000
 
 [Page01]
 Type=Temperature
 Tempo=2.5
+Couleur=#FFFFFF
 
 [Page02]
+Type=Meteo
+Tempo=5
+
+[Page03]
 Type=Image
 Source=Blanc.JPG
 Tempo=2.5
 
-[Page03]
+[Page04]
 Type=Texte1Ligne
 Texte= Ligne
 Tempo=3
+Couleur=#FFFFFF
 
-[Page04]
+[Page05]
 Type=Texte2Lignes
 Texte1=Ligne fixe
 Texte2=Ligne défilante
 Defilement=oui
 Tempo=4.5
+Couleur=#FFFFFF

@@ -18,6 +18,29 @@
          break;
    }
    ?>
+   <?php
+   if ($Page->Parametres()['Type'] == 'Heure' ||
+       $Page->Parametres()['Type'] == 'Temperature' ||
+       $Page->Parametres()['Type'] == 'Texte1Ligne' ||
+       $Page->Parametres()['Type'] == 'Texte2Lignes')
+   {
+   ?>
+      <p>
+         Couleur du texte :
+         <select name="Couleur">
+            <option value="#FFFFFF">Blanc</option>
+            <option value="#FF0000">Rouge</option>
+            <option value="#00FF00">Vert</option>
+            <option value="#0000FF">Bleu</option>
+            <option value="#FFFF00">Jaune</option>
+            <option value="#00FFFF">Turquoise</option>
+            <option value="#FF00FF">Violet</option>
+            <option value="#FF7F00">Orange</option>
+         </select>
+      </p>
+   <?php
+   }
+   ?>
    <p>
       Tempo :
       <input type="text" name="Tempo" size="10"

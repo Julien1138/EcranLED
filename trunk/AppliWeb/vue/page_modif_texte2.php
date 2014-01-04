@@ -20,7 +20,7 @@
    Défilement de la ligne du bas ?
    <input type="radio" name="Defilement" value="oui" id="oui"
    <?php
-   if (!array_key_exists('Defilement', $Page->Parametres()) or $Page->Parametres()['Defilement']=="oui" or $Page->Parametres()['Defilement']!="non")
+   if (array_key_exists('Defilement', $Page->Parametres()) and $Page->Parametres()['Defilement']=="oui")
    {
       echo ' checked="checked" ';
    }
@@ -28,7 +28,7 @@
    /> <label for="oui">Oui</label>
    <input type="radio" name="Defilement" value="non" id="non"
    <?php
-   if (array_key_exists('Defilement', $Page->Parametres()) and $Page->Parametres()['Defilement']=="non")
+   if (!array_key_exists('Defilement', $Page->Parametres()) or $Page->Parametres()['Defilement']!="oui")
    {
       echo ' checked="checked" ';
    }

@@ -23,8 +23,11 @@
    {
       $Page=$Config->ListePages()[$i]; // Récupération de la page
       
+      // Séparateur à remplacer par une image
+      echo "==================================================================================</br>";
+      
       // Titre de la page
-      echo '<h2>Page n°' . $i . ' : Affichage ';
+      echo "<h2>Page d'affichage ";
       switch ($Page->Parametres()['Type'])
       {
          case 'Heure' :
@@ -32,6 +35,9 @@
             break;
          case 'Temperature' :
             echo "de la température extérieure";
+            break;
+         case 'Meteo' :
+            echo "de la météo";
             break;
          case 'Image' :
             echo "d'une image";
@@ -45,32 +51,35 @@
          default :
             break;
       }
-      echo '</h2>';
+      echo ' :</h2>';
       
       if (isset($_GET['modifpage']) and (int) $_GET['modifpage']==(int) $i)
       {
+         echo '<p>';
          include("page_modif.php"); // Affichage du formulaire de modification de la page
-         //echo '<p class="btn-more box noprint">';
-		 echo '<b><a href="index.php"><img src="design/annuler.png" width = 15 alt="annuler">Annuler </a></b>';   // Lien pour annuler la modification de la page
-		// echo '</p>';
+         echo '<b><a href="index.php"><img src="design/annuler.png" width = 15>Annuler </a></b>';   // Lien pour annuler la modification de la page
+         echo '</p>';
       }
       else
       {
+         include("page.php"); // Affichage de la page
          echo '<p class="btn-more box noprint">';
-         echo '<b/><a href="index.php?modifpage=' . $i . '">Modifier la page</a></b>';   // Lien pour modifier la page
-         echo '<b/><a href="index.php?supprpage=' . $i . '">Supprimer la page</a></b>';   // Lien pour supprimer la page
+         echo '<b/><a href="index.php?modifpage=' . $i . '">Modifier la page<img src="design/modifier.png" width = 25></a></b>';   // Lien pour modifier la page
+         echo '<b/><a href="index.php?supprpage=' . $i . '">Supprimer la page<img src="design/supprimer.png" width = 25></a></b>';   // Lien pour supprimer la page
          
          if ($i != 0)   // On ne peut pas monter la première page
          {
-            echo '<b/><a href="index.php?monterpage=' . $i . '">Monter <img src="design/fleches_haut.png" width=25 border=0 alt="monter"></a></b>';   // Lien pour monter la page
+            echo '<b/><a href="index.php?monterpage=' . $i . '">Monter <img src="design/fleches_haut.png" width=25 border=0></a></b>';   // Lien pour monter la page
          }
          if ($i != ($Config->NbrDePages()-1))   // On ne peut pas descendre la dernière page
          {
-            echo '<b/><a href="index.php?descendrepage=' . $i . '">Descendre <img src="design/fleches_bas.png" width=25 border=0 alt="descendre"></a></b>';   // Lien pour descendre la page
+            echo '<b/><a href="index.php?descendrepage=' . $i . '">Descendre <img src="design/fleches_bas.png" width=25 border=0></a></b>';   // Lien pour descendre la page
          }
-		 echo '</p>';
-         include("page.php"); // Affichage de la page
+         echo '</p>';
       }
+      
+      // Séparateur à remplacer par une image
+      echo "==================================================================================</br>";
    }
    ?>
    <h2>Ajouter une page</h2>
@@ -78,7 +87,8 @@
       Ajouter une page de type
       <select name="Type">
          <option value="Heure">Heure</option>
-         <option value="Temperature">Temperature</option>
+         <option value="Temperature">Température</option>
+         <option value="Meteo">Météo</option>
          <option value="Image">Image</option>
          <option value="Texte1Ligne">Texte sur 1 Ligne</option>
          <option value="Texte2Lignes">Texte sur 2 Lignes</option>
