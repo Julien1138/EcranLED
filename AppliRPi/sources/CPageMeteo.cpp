@@ -79,37 +79,37 @@ void CPageMeteo::UpdateImage()
       m_Image.draw(Magick::DrawableCompositeImage(0, 0, IconMeteo));
       
       // Récupération de la couleur de fond de l'icone météo
-      Magick::PixelPacket *pixel = m_Image.getPixels(0, 0, 1, 1);
-      Magick::Color Color = pixel[0];
+      /*Magick::PixelPacket *pixel = m_Image.getPixels(0, 0, 1, 1);
+      Magick::Color Color = pixel[0];*/
       
       // Coloration du fond de l'image complète avec cette couleur
-      m_Image.backgroundColor(Color);
+      //m_Image.backgroundColor(Color);
 
       // Configuration de la font
       m_Image.font("Helvetica");
-      m_Image.strokeColor("green");
-      m_Image.fillColor("green");
-      m_Image.fontPointsize(20);
+      m_Image.strokeColor("white");
+      m_Image.fillColor("white");
+      m_Image.fontPointsize(18);
 
       // Effacement de l'image
-      m_Image.erase();
+      //m_Image.erase();
 
       // Incrustation de l'icone météo
-      m_Image.draw(Magick::DrawableCompositeImage(0, 0, IconMeteo));
+      //m_Image.draw(Magick::DrawableCompositeImage(0, 0, IconMeteo));
 
       // Incrustation de l'icone de vitesse du vent
       
       // Vitesse du vent
       char bufferVitesseVent[256];
-      sprintf(bufferVitesseVent, "Vent : %iKm/h", iVitesseVent);
-      m_Image.draw(Magick::DrawableText(50, 20, bufferVitesseVent));
+      sprintf(bufferVitesseVent, "Vent : %i Km/h", iVitesseVent);
+      m_Image.draw(Magick::DrawableText(60, 20, bufferVitesseVent));
 
       // Incrustation de l'icone d'humidité
       
       // Humidité
       char bufferHumidite[256];
-      sprintf(bufferHumidite, "Humidité : %i%%", iVitesseVent);
-      m_Image.draw(Magick::DrawableText(50, 48, bufferHumidite));
+      sprintf(bufferHumidite, "Humidité : %i%%", iHumidite);
+      m_Image.draw(Magick::DrawableText(60, 48, bufferHumidite));
    }
 }
 
