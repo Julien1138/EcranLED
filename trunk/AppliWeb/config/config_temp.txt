@@ -3,19 +3,19 @@ NombreDePages=7
 
 [Page00]
 Type=Date
-Couleur=#FF00FF
+Couleur=#00FFFF
 Tempo=7
 
 [Page01]
 Type=Heure
 Tempo=2.5
 Format=12H
-Couleur=#FF0000
+Couleur=#00FFFF
 
 [Page02]
 Type=Temperature
 Tempo=2.5
-Couleur=#FFFFFF
+Couleur=#0000FF
 
 [Page03]
 Type=Meteo
