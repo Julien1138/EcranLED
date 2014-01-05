@@ -1,2 +1,0 @@
-[Météo]
-Temperature=10
