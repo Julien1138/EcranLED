@@ -19,7 +19,7 @@ CPage((CPage&) PageImage)
 
 void CPageImage::PreloadImage()
 {
-   Magick::Image Image;
+   Magick::Image Image, Image2;
    Image.read(("/var/www/images/" + m_sSource).c_str());
    Image.resize(Magick::Geometry(192, 56));
    m_Image.draw(Magick::DrawableCompositeImage(0, 0, Image));
