@@ -45,19 +45,20 @@ void CProgramme::Charger()
             // Choix de la classe en fonction du type
             if (mapParametres["Type"] == "Heure")
             {
+               
                CPageHeure* Page = new CPageHeure(mapParametres["Tempo"],
-                                                 255.0,
-                                                 255.0,
-                                                 255.0,
+                                                 strtol(mapParametres["Couleur"].substr(1,2).c_str(), NULL, 16),
+                                                 strtol(mapParametres["Couleur"].substr(3,2).c_str(), NULL, 16),
+                                                 strtol(mapParametres["Couleur"].substr(5,2).c_str(), NULL, 16),
                                                  mapParametres["Format"]);
                m_vectPages.push_back(Page);
             }
             else if (mapParametres["Type"] == "Temperature")
             {
                CPageTemperature* Page = new CPageTemperature(mapParametres["Tempo"],
-                                                             255.0,
-                                                             255.0,
-                                                             255.0);
+                                                             strtol(mapParametres["Couleur"].substr(1,2).c_str(), NULL, 16),
+                                                             strtol(mapParametres["Couleur"].substr(3,2).c_str(), NULL, 16),
+                                                             strtol(mapParametres["Couleur"].substr(5,2).c_str(), NULL, 16));
                m_vectPages.push_back(Page);
             }
             else if (mapParametres["Type"] == "Image")
@@ -69,18 +70,18 @@ void CProgramme::Charger()
             else if (mapParametres["Type"] == "Texte1Ligne")
             {
                CPageTexte1* Page = new CPageTexte1(mapParametres["Tempo"],
-                                                   255.0,
-                                                   255.0,
-                                                   255.0,
+                                                   strtol(mapParametres["Couleur"].substr(1,2).c_str(), NULL, 16),
+                                                   strtol(mapParametres["Couleur"].substr(3,2).c_str(), NULL, 16),
+                                                   strtol(mapParametres["Couleur"].substr(5,2).c_str(), NULL, 16),
                                                    mapParametres["Texte"]);
                m_vectPages.push_back(Page);
             }
             else if (mapParametres["Type"] == "Texte2Lignes")
             {
                CPageTexte2* Page = new CPageTexte2(mapParametres["Tempo"],
-                                                   255.0,
-                                                   255.0,
-                                                   255.0,
+                                                   strtol(mapParametres["Couleur"].substr(1,2).c_str(), NULL, 16),
+                                                   strtol(mapParametres["Couleur"].substr(3,2).c_str(), NULL, 16),
+                                                   strtol(mapParametres["Couleur"].substr(5,2).c_str(), NULL, 16),
                                                    mapParametres["Texte1"],
                                                    mapParametres["Texte2"],
                                                    mapParametres["Defilement"]);
