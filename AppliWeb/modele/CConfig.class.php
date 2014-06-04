@@ -1,9 +1,11 @@
 <?php
+include_once('CParametres.class.php');
 include_once('CPage.class.php');
 
 class CConfig
 {
    private $_NbrDePages;
+   private $_Parametres;
    private $_ListePages;
    
    public function Charger($FileName)   // lecture du fichier
@@ -28,6 +30,11 @@ class CConfig
                $this->_ListePages[$NumPage] = new CPage();
                $this->_ListePages[$NumPage]->Charger($File);
             }
+            else if (!strncmp($Ligne,"[Configuration",14))
+            {
+               $this->_Parametres = new CParametres();
+               $this->_Parametres->Charger($File);
+            }
          }
          fclose($File);
          return true;
@@ -48,7 +55,8 @@ class CConfig
       
       // Ecriture de l'entête
       fputs($File, "[Configuration]\n");
-      fputs($File, sprintf("NombreDePages=%u\n", $this->_NbrDePages));
+      // fputs($File, sprintf("NombreDePages=%u\n", $this->_NbrDePages));
+      $this->_Parametres->Sauvegarder($File);
       
       // Ecriture de chaque page
       for ($i = 0 ; $i < $this->_NbrDePages ; $i++)
@@ -136,6 +144,11 @@ class CConfig
          trigger_error("Err : Imposible de descendre la dernière page", E_USER_ERROR);
          return false;
       }
+   }
+   
+   public function Parametres()
+   {
+      return $this->_Parametres;
    }
 }
 ?>

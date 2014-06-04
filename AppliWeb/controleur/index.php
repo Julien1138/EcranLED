@@ -15,6 +15,12 @@ if (isset($_GET['enregistrer']))  // Enregistrer les changement
 $Config = new CConfig();
 $Config->Charger(sprintf("%s/%s", $GLOBALS["DossierConfig"], $GLOBALS["FichierConfigTemp"]));
 
+if (isset($_POST['parametrage']))  // Paramétrage
+{
+   $Param=$Config->Parametres();
+   include("controleur/parametrage.php"); // Parametrage
+}
+
 if (isset($_POST['updatepage']) and isset($_POST['numpage']))  // Mise à jour d'une page
 {
    $Page=$Config->ListePages()[(int) $_POST['numpage']]; // Récupération de la page

@@ -33,7 +33,13 @@ CPage::~CPage()
    delete m_pSPI;
 }
 
-void CPage::EnvoiImage()
+void CPage::EnvoiImage(unsigned char ucLuminosite,
+                       unsigned char ucRouge1, unsigned char ucVert1, unsigned char ucBleu1,
+                       unsigned char ucRouge2, unsigned char ucVert2, unsigned char ucBleu2,
+                       unsigned char ucRouge3, unsigned char ucVert3, unsigned char ucBleu3,
+                       unsigned char ucRouge4, unsigned char ucVert4, unsigned char ucBleu4,
+                       unsigned char ucRouge5, unsigned char ucVert5, unsigned char ucBleu5,
+                       unsigned char ucRouge6, unsigned char ucVert6, unsigned char ucBleu6)
 {
    unsigned char tx[1024];
    unsigned int idx(0);
@@ -41,31 +47,31 @@ void CPage::EnvoiImage()
 // Ligne d'entête
    tx[idx++] = 0xA2; // Header
    tx[idx++] = 0x00; // Ligne 0
-   tx[idx++] = 0xFF; // Luminosité
+   tx[idx++] = ucLuminosite; // Luminosité
 
-   tx[idx++] = 0xFF; // Coefficient rouge Ecran 1
-   tx[idx++] = 0x80; // Coefficient vert Ecran 1
-   tx[idx++] = 0x60; // Coefficient bleu Ecran 1
+   tx[idx++] = ucRouge1; // Coefficient rouge Ecran 1
+   tx[idx++] = ucVert1; // Coefficient vert Ecran 1
+   tx[idx++] = ucBleu1; // Coefficient bleu Ecran 1
 
-   tx[idx++] = 0x25; // Coefficient rouge Ecran 2
-   tx[idx++] = 0x28; // Coefficient vert Ecran 2
-   tx[idx++] = 0x17; // Coefficient bleu Ecran 2
+   tx[idx++] = ucRouge2; // Coefficient rouge Ecran 2
+   tx[idx++] = ucVert2; // Coefficient vert Ecran 2
+   tx[idx++] = ucBleu2; // Coefficient bleu Ecran 2
 
-   tx[idx++] = 0x25; // Coefficient rouge Ecran 3
-   tx[idx++] = 0x28; // Coefficient vert Ecran 3
-   tx[idx++] = 0x17; // Coefficient bleu Ecran 3
+   tx[idx++] = ucRouge3; // Coefficient rouge Ecran 3
+   tx[idx++] = ucVert3; // Coefficient vert Ecran 3
+   tx[idx++] = ucBleu3; // Coefficient bleu Ecran 3
 
-   tx[idx++] = 0x25; // Coefficient rouge Ecran 4
-   tx[idx++] = 0x28; // Coefficient vert Ecran 4
-   tx[idx++] = 0x17; // Coefficient bleu Ecran 4
+   tx[idx++] = ucRouge4; // Coefficient rouge Ecran 4
+   tx[idx++] = ucVert4; // Coefficient vert Ecran 4
+   tx[idx++] = ucBleu4; // Coefficient bleu Ecran 4
 
-   tx[idx++] = 0x25; // Coefficient rouge Ecran 5
-   tx[idx++] = 0x28; // Coefficient vert Ecran 5
-   tx[idx++] = 0x17; // Coefficient bleu Ecran 5
+   tx[idx++] = ucRouge5; // Coefficient rouge Ecran 5
+   tx[idx++] = ucVert5; // Coefficient vert Ecran 5
+   tx[idx++] = ucBleu5; // Coefficient bleu Ecran 5
 
-   tx[idx++] = 0x25; // Coefficient rouge Ecran 6
-   tx[idx++] = 0x28; // Coefficient vert Ecran 6
-   tx[idx++] = 0x17; // Coefficient bleu Ecran 6
+   tx[idx++] = ucRouge6; // Coefficient rouge Ecran 6
+   tx[idx++] = ucVert6; // Coefficient vert Ecran 6
+   tx[idx++] = ucBleu6; // Coefficient bleu Ecran 6
    m_pSPI->Envoi((unsigned char*) &tx, 2+3*192);
 
 // Image
@@ -86,7 +92,13 @@ void CPage::EnvoiImage()
    }
 }
 
-void CPage::Afficher()
+void CPage::Afficher(unsigned char ucLuminosite,
+                       unsigned char ucRouge1, unsigned char ucVert1, unsigned char ucBleu1,
+                       unsigned char ucRouge2, unsigned char ucVert2, unsigned char ucBleu2,
+                       unsigned char ucRouge3, unsigned char ucVert3, unsigned char ucBleu3,
+                       unsigned char ucRouge4, unsigned char ucVert4, unsigned char ucBleu4,
+                       unsigned char ucRouge5, unsigned char ucVert5, unsigned char ucBleu5,
+                       unsigned char ucRouge6, unsigned char ucVert6, unsigned char ucBleu6)
 {
    struct timeval StopTime, CurTime;
    unsigned int PrevSchedule, NextSchedule;
@@ -113,7 +125,13 @@ void CPage::Afficher()
          ((unsigned int)(CurTime.tv_usec) < NextSchedule))
          {
             this->UpdateImage();
-            this->EnvoiImage();
+            this->EnvoiImage(ucLuminosite,
+                             ucRouge1, ucVert1, ucBleu1,
+                             ucRouge2, ucVert2, ucBleu2,
+                             ucRouge3, ucVert3, ucBleu3,
+                             ucRouge4, ucVert4, ucBleu4,
+                             ucRouge5, ucVert5, ucBleu5,
+                             ucRouge6, ucVert6, ucBleu6);
             PrevSchedule = (PrevSchedule + CPAGE_RESOLUTION_US) % 1000000;
             NextSchedule = (NextSchedule + CPAGE_RESOLUTION_US) % 1000000;
          }
@@ -124,7 +142,13 @@ void CPage::Afficher()
          ((unsigned int)(CurTime.tv_usec) < NextSchedule))
          {
             this->UpdateImage();
-            this->EnvoiImage();
+            this->EnvoiImage(ucLuminosite,
+                             ucRouge1, ucVert1, ucBleu1,
+                             ucRouge2, ucVert2, ucBleu2,
+                             ucRouge3, ucVert3, ucBleu3,
+                             ucRouge4, ucVert4, ucBleu4,
+                             ucRouge5, ucVert5, ucBleu5,
+                             ucRouge6, ucVert6, ucBleu6);
             PrevSchedule = (PrevSchedule + CPAGE_RESOLUTION_US) % 1000000;
             NextSchedule = (NextSchedule + CPAGE_RESOLUTION_US) % 1000000;
          }

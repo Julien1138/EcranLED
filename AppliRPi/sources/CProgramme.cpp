@@ -35,7 +35,35 @@ void CProgramme::Charger()
       this->Vider();
       while(std::getline(ifsFichier, sLigne))
       {
-         if (sLigne.substr(0,5) == "[Page")
+         if (sLigne.substr(0,14) == "[Configuration")
+         {
+            while(std::getline(ifsFichier, sLigne) && (sLigne.size() != 0))
+            {
+               int iPosEgale = sLigne.find('=',0); // Cherche la position du signe égale
+               mapParametres[sLigne.substr(0, iPosEgale)] = sLigne.substr(iPosEgale+1, sLigne.size() - iPosEgale+1); // Ajout d'un paramètre à la liste
+            }
+            
+            m_ucLuminosite = strtol(mapParametres["Luminosite"].c_str(), NULL, 10);
+            m_ucRouge1 = strtol(mapParametres["Rouge1"].c_str(), NULL, 10);
+            m_ucVert1 = strtol(mapParametres["Vert1"].c_str(), NULL, 10);
+            m_ucBleu1 = strtol(mapParametres["Bleu1"].c_str(), NULL, 10);
+            m_ucRouge2 = strtol(mapParametres["Rouge2"].c_str(), NULL, 10);
+            m_ucVert2 = strtol(mapParametres["Vert2"].c_str(), NULL, 10);
+            m_ucBleu2 = strtol(mapParametres["Bleu2"].c_str(), NULL, 10);
+            m_ucRouge3 = strtol(mapParametres["Rouge3"].c_str(), NULL, 10);
+            m_ucVert3 = strtol(mapParametres["Vert3"].c_str(), NULL, 10);
+            m_ucBleu3 = strtol(mapParametres["Bleu3"].c_str(), NULL, 10);
+            m_ucRouge4 = strtol(mapParametres["Rouge4"].c_str(), NULL, 10);
+            m_ucVert4 = strtol(mapParametres["Vert4"].c_str(), NULL, 10);
+            m_ucBleu4 = strtol(mapParametres["Bleu4"].c_str(), NULL, 10);
+            m_ucRouge5 = strtol(mapParametres["Rouge5"].c_str(), NULL, 10);
+            m_ucVert5 = strtol(mapParametres["Vert5"].c_str(), NULL, 10);
+            m_ucBleu5 = strtol(mapParametres["Bleu5"].c_str(), NULL, 10);
+            m_ucRouge6 = strtol(mapParametres["Rouge6"].c_str(), NULL, 10);
+            m_ucVert6 = strtol(mapParametres["Vert6"].c_str(), NULL, 10);
+            m_ucBleu6 = strtol(mapParametres["Bleu6"].c_str(), NULL, 10);
+         }
+         else if (sLigne.substr(0,5) == "[Page")
          {
             while(std::getline(ifsFichier, sLigne) && (sLigne.size() != 0))
             {
@@ -90,7 +118,10 @@ void CProgramme::Charger()
             }
             else if (mapParametres["Type"] == "Meteo")
             {
-               CPageMeteo* Page = new CPageMeteo(mapParametres["Tempo"]);
+               CPageMeteo* Page = new CPageMeteo(mapParametres["Tempo"],
+                                                 strtol(mapParametres["Couleur"].substr(1,2).c_str(), NULL, 16),
+                                                 strtol(mapParametres["Couleur"].substr(3,2).c_str(), NULL, 16),
+                                                 strtol(mapParametres["Couleur"].substr(5,2).c_str(), NULL, 16));
                m_vectPages.push_back(Page);
             }
             else if (mapParametres["Type"] == "Date")
@@ -153,7 +184,13 @@ void CProgramme::Afficher()
       
       for (std::vector<CPage*>::iterator it = m_vectPages.begin(); it != m_vectPages.end(); it++)
       {
-         (*it)->Afficher();
+         (*it)->Afficher(m_ucLuminosite,
+                         m_ucRouge1, m_ucVert1, m_ucBleu1,
+                         m_ucRouge2, m_ucVert2, m_ucBleu2,
+                         m_ucRouge3, m_ucVert3, m_ucBleu3,
+                         m_ucRouge4, m_ucVert4, m_ucBleu4,
+                         m_ucRouge5, m_ucVert5, m_ucBleu5,
+                         m_ucRouge6, m_ucVert6, m_ucBleu6);
       }
    }
 }

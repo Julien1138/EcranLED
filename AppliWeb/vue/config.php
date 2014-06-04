@@ -1,23 +1,36 @@
 <div id ="header">
-<div id ="logo">
-<h1>  Configuration des pages de l'écran à LED</h1>
-</div>
+   <div id ="logo">
+      <h1>Configuration des pages de l'écran à LED</h1>
+   </div>
 </div>
 
 <body>
 <div id="main">
 <form method="post" action="index.php">
-
    
    <div id="content">
    <p class="btn-more box noprint">
-   
+      
       <a href="index.php?ignorer=oui">Ignorer les changements</a>
       <a href="index.php?enregistrer=oui">Enregistrer les changements</a>
-
+      
    </p>
   
    <?php
+   $Param=$Config->Parametres();
+   if (isset($_GET['parametrage']))
+   {
+      echo '<p>';
+      include("parametrage.php"); // Page de paramétrage
+      echo '</p>';
+   }
+   else
+   {
+      echo '<p class="btn-more box noprint">';
+      echo '<b/><a href="index.php?parametrage=oui">Parametrage</a></b>';   // Lien pour modifier la page
+      echo '</p>';
+   }
+   
    // Ecriture de chaque page
    for ($i = 0 ; $i < $Config->NbrDePages() ; $i++)
    {
@@ -30,11 +43,8 @@
       echo "<h2>Page d'affichage ";
       switch ($Page->Parametres()['Type'])
       {
-         case 'Date' :
-            echo "de la date";
-            break;
          case 'Heure' :
-            echo "de l'heure";
+            echo "de l'horloge";
             break;
          case 'Temperature' :
             echo "de la température extérieure";
@@ -89,7 +99,6 @@
    <p>
       Ajouter une page de type
       <select name="Type">
-         <option value="Date">Date</option>
          <option value="Heure">Heure</option>
          <option value="Temperature">Température</option>
          <option value="Meteo">Météo</option>
@@ -99,7 +108,7 @@
       </select>
       <input type="submit" name="ajoutpage" value="Ajouter" />
    </p>
-    </div>
+   </div>
 </form>
 </div>
 </body>

@@ -5,25 +5,21 @@
 #include <unistd.h>
 
 CPageMeteo::CPageMeteo() :
-CPage(),
+CPageTexte2(),
 m_iDateModifFichier(0)
 {
    m_sFilePath = FICHIER_METEO;
 }
 
-CPageMeteo::CPageMeteo(std::string sTempo) :
-CPage(sTempo),
+CPageMeteo::CPageMeteo(std::string sTempo, float fCoefRouge, float fCoefVert, float fCoefBleu) :
+CPageTexte2(sTempo, fCoefRouge, fCoefVert, fCoefBleu, "", "", "non"),
 m_iDateModifFichier(0)
 {
    m_sFilePath = FICHIER_METEO;
 }
 
 CPageMeteo::CPageMeteo(const CPageMeteo& PageMeteo) :
-CPage((CPage&) PageMeteo)
-{
-}
-
-void CPageMeteo::PreloadImage()
+CPageTexte2((CPageTexte2&) PageMeteo)
 {
 }
 
@@ -33,33 +29,27 @@ void CPageMeteo::UpdateImage()
    {
       std::ifstream ifsFichier(m_sFilePath.c_str(), std::ios::in);   // on ouvre en lecture
       std::string sLigne;
-      int iTemperature;
       int iHumidite;
       int iVitesseVent;
+      char buffer1[256], buffer2[256], buffer[512];
+      Magick::Image Image;
       
       if (ifsFichier)
       {
          while(std::getline(ifsFichier, sLigne))
          {
-            if (sLigne.substr(0,12) == "Temperature=")
+            if (sLigne.substr(0,9) == "Humidite=")
             {
-               char buffer[6];
-               sprintf(buffer, "%s", (sLigne.substr(12, sLigne.length()-12)).c_str());
-               std::stringstream ssTemperature(buffer);
-               ssTemperature >> iTemperature;
-            }
-            else if (sLigne.substr(0,9) == "Humidite=")
-            {
-               char buffer[6];
-               sprintf(buffer, "%s", (sLigne.substr(9, sLigne.length()-9)).c_str());
-               std::stringstream ssHumidite(buffer);
+               char bufferx[6];
+               sprintf(bufferx, "%s", (sLigne.substr(9, sLigne.length()-9)).c_str());
+               std::stringstream ssHumidite(bufferx);
                ssHumidite >> iHumidite;
             }
             else if (sLigne.substr(0,12) == "VitesseVent=")
             {
-               char buffer[6];
-               sprintf(buffer, "%s", (sLigne.substr(12, sLigne.length()-12)).c_str());
-               std::stringstream ssVitesseVent(buffer);
+               char bufferx[6];
+               sprintf(bufferx, "%s", (sLigne.substr(12, sLigne.length()-12)).c_str());
+               std::stringstream ssVitesseVent(bufferx);
                ssVitesseVent >> iVitesseVent;
             }
          }
@@ -69,47 +59,69 @@ void CPageMeteo::UpdateImage()
       {
          std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
       }
-
-      m_Image.erase();
-
-      // Incrustation de l'icone météo
-      Magick::Image IconMeteo;
-      IconMeteo.read(FICHIER_ICON_METEO);
-      IconMeteo.resize(Magick::Geometry(192, 56));
-      m_Image.draw(Magick::DrawableCompositeImage(0, 0, IconMeteo));
-      
-      // Récupération de la couleur de fond de l'icone météo
-      /*Magick::PixelPacket *pixel = m_Image.getPixels(0, 0, 1, 1);
-      Magick::Color Color = pixel[0];*/
-      
-      // Coloration du fond de l'image complète avec cette couleur
-      //m_Image.backgroundColor(Color);
-
-      // Configuration de la font
-      m_Image.font("Helvetica");
-      m_Image.strokeColor("white");
-      m_Image.fillColor("white");
-      m_Image.fontPointsize(18);
-
-      // Effacement de l'image
-      //m_Image.erase();
-
-      // Incrustation de l'icone météo
-      //m_Image.draw(Magick::DrawableCompositeImage(0, 0, IconMeteo));
-
-      // Incrustation de l'icone de vitesse du vent
       
       // Vitesse du vent
-      char bufferVitesseVent[256];
-      sprintf(bufferVitesseVent, "Vent : %i Km/h", iVitesseVent);
-      m_Image.draw(Magick::DrawableText(60, 20, bufferVitesseVent));
-
-      // Incrustation de l'icone d'humidité
+      sprintf(buffer1, "Vent : %i Km/h", iVitesseVent);
       
       // Humidité
-      char bufferHumidite[256];
-      sprintf(bufferHumidite, "Humidité : %i%%", iHumidite);
-      m_Image.draw(Magick::DrawableText(60, 48, bufferHumidite));
+      sprintf(buffer2, "Humidité : %i%%", iHumidite);
+      
+      
+
+      //Calcul de la largeur de la ligne 1
+      MagickCore::MagickWand *mv1 = MagickCore::NewMagickWand();
+      MagickCore::MagickSetSize(mv1, 0, 56);
+      MagickCore::MagickSetPointsize(mv1, 26);
+      MagickCore::MagickSetFont(mv1, "Helvetica");
+      MagickCore::MagickSetOption(mv1, "fill", "white");
+      MagickCore::MagickSetOption(mv1, "background", "black");
+      MagickCore::MagickSetGravity(mv1, Magick::CenterGravity);
+      sprintf(buffer, "caption:%s", buffer1);
+      for (int i(0) ; i < 512 ; i++)
+      {
+         if (buffer[i] == ' ')
+         {
+            buffer[i] = '-';
+         }
+      }
+      MagickCore::MagickReadImage(mv1, buffer);
+      MagickCore::MagickWriteImage(mv1, "tmp.bmp");
+      MagickCore::DestroyMagickWand(mv1);
+
+      Image.read("tmp.bmp");
+      m_iLargeurLigne1 = Image.baseColumns();
+
+      //Calcul de la largeur de la ligne 2
+      MagickCore::MagickWand *mv2 = MagickCore::NewMagickWand();
+      MagickCore::MagickSetSize(mv2, 0, 56);
+      MagickCore::MagickSetPointsize(mv2, 26);
+      MagickCore::MagickSetFont(mv2, "Helvetica");
+      MagickCore::MagickSetOption(mv2, "fill", "white");
+      MagickCore::MagickSetOption(mv2, "background", "black");
+      MagickCore::MagickSetGravity(mv2, Magick::CenterGravity);
+      sprintf(buffer, "caption:%s", buffer2);
+      for (int i(0) ; i < 512 ; i++)
+      {
+         if (buffer[i] == ' ')
+         {
+            buffer[i] = '-';
+         }
+      }
+      MagickCore::MagickReadImage(mv2, buffer);
+      MagickCore::MagickWriteImage(mv2, "tmp.bmp");
+      MagickCore::DestroyMagickWand(mv2);
+
+      Image.read("tmp.bmp");
+      m_iLargeurLigne2 = Image.baseColumns();
+
+      // Ecriture du texte
+      m_Image.erase();
+      m_Image.font("Helvetica");
+      m_Image.strokeColor("red");   // On utilise le rouge en niveau de gris
+      m_Image.fillColor("red");     // On utilise le rouge en niveau de gris
+      m_Image.fontPointsize(26);
+      m_Image.draw(Magick::DrawableText(96-(m_iLargeurLigne1/2), 20, buffer1));
+      m_Image.draw(Magick::DrawableText(96-(m_iLargeurLigne2/2), 48, buffer2));
    }
 }
 
