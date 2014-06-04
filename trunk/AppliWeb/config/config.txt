@@ -1,38 +1,47 @@
 [Configuration]
-NombreDePages=7
+NombreDePages=6
+Luminosite=186
+Rouge1=
+Vert1=
+Bleu1=
+Rouge2=
+Vert2=
+Bleu2=12
+Rouge3=
+Vert3=
+Bleu3=
+Rouge4=
+Vert4=
+Bleu4=
+Rouge5=
+Vert5=
+Bleu5=
+Rouge6=
+Vert6=
+Bleu6=
 
 [Page00]
-Type=Date
-Couleur=#FF00FF
-Tempo=7
-
-[Page01]
 Type=Heure
 Tempo=2.5
 Format=12H
 Couleur=#FF0000
 
-[Page02]
+[Page01]
 Type=Temperature
 Tempo=2.5
 Couleur=#FFFFFF
 
-[Page03]
+[Page02]
 Type=Meteo
 Tempo=5
 
-[Page04]
-Type=Image
-Source=Blanc.JPG
-Tempo=2.5
-
-[Page05]
+[Page03]
 Type=Texte1Ligne
 Texte= Ligne
 Tempo=3
 Couleur=#FFFFFF
 
-[Page06]
+[Page04]
 Type=Texte2Lignes
 Texte1=Ligne fixe
 Texte2=Ligne défilante

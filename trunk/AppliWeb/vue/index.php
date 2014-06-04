@@ -4,7 +4,7 @@
       <?php
       if (isset($_GET['ajoutimage']))
       {
-         echo "<title>Ajout d'une image</title>";
+         echo"<title>Ajout d'une image</title>";
       }
       else
       {
